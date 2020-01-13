@@ -3,7 +3,10 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.contrib.auth.hashers import make_password
 
 class Persona(models.Model):
-
+    """
+    Clase que representa a una persona dentro del sistema
+    """
+    
     dni = models.PositiveIntegerField(null=True)
 
     def __str__(self):
@@ -67,7 +70,7 @@ class Persona(models.Model):
 
 class Rol(models.Model):
     """
-    Modelo genérico para la gestión de roles de participantes.
+    Modelo genérico para la gestión de roles de usuarios dentro del sistema.
     """
     TIPO = 0
     ROLNAME = 'Rol'
@@ -106,6 +109,11 @@ class Rol(models.Model):
 
 
 class Administrativo(Rol):
+    """
+    Clase que representa al rol administrativo dentro del sistema.
+    Dicho rol se encarga de generar los ABM y los diplomas.
+    """
+    
     TIPO = 2
     ROLNAME = 'Administrativo'
 
@@ -140,7 +148,9 @@ class CustomUserManager(BaseUserManager):
         return user
 
 class Usuario(Rol, AbstractUser):
-    """ Modelo de rol de Usuario. """
+    """ 
+    Clase para el modelo de rol de Usuario.
+    """
     TIPO = 1
     ROLNAME = "Usuario"
 
