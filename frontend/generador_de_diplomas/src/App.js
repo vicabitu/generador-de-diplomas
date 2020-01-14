@@ -8,9 +8,13 @@ function App() {
   
   const [login, setLogin] = useState(false)
 
-  function handleLogin(e, userName, password) {
+  function handleLogout() {
+    console.log("LogOut")
+    localStorage.removeItem('access_token');
+    setLogin(false);
+  }
 
-    console.log("Handle Login")
+  function handleLogin(e, userName, password) {
 
     e.preventDefault();
     console.log("Login");
@@ -22,11 +26,11 @@ function App() {
       data
     )
     .then(function (response) {
-      console.log(response.data);
-      console.log(response.data.refresh);
-      console.log(response.data.access)
+      // console.log(response.data);
+      // console.log(response.data.refresh);
+      // console.log(response.data.access)
       localStorage.setItem('access_token', response.data.access);
-      console.log("Token de acceso: " + localStorage.getItem('access_token'))
+      // console.log("Token de acceso: " + localStorage.getItem('access_token'))
       setLogin(true);
     })
     .catch(function (error) {
@@ -45,7 +49,9 @@ function App() {
             />
             // Estoy logeado
             : 
-            <DashBoard />
+            <DashBoard 
+              handleLogout={handleLogout}
+            />
           }
         </div>
     </div>

@@ -17,12 +17,10 @@ import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 import Deposits from './Deposits';
 import Orders from './Orders';
 import NestedList from './NestedList';
-import TestApi from './TestApi';
 import { Route, BrowserRouter } from 'react-router-dom';
 import OptionsUser from './OptionsUser';
 
@@ -120,7 +118,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Dashboard() {
+export default function Dashboard(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -154,7 +152,9 @@ export default function Dashboard() {
                 <AccountCircleIcon />
               </Badge>
             </IconButton> */}
-            <OptionsUser />
+            <OptionsUser 
+              handleLogout={props.handleLogout}
+            />
           </Toolbar>
         </AppBar>
         <Drawer

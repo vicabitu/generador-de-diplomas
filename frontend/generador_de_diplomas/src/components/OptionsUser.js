@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function OptionsUser() {
+export default function OptionsUser(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
@@ -84,7 +84,7 @@ export default function OptionsUser() {
                   <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
                     <MenuItem onClick={handleClose}>Perfil</MenuItem>
                     <MenuItem onClick={handleClose}>Mi Cuenta</MenuItem>
-                    <MenuItem onClick={handleClose}>Salir</MenuItem>
+                    <MenuItem onClick={() => {props.handleLogout()}}>Salir</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
