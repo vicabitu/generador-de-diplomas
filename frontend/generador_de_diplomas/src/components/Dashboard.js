@@ -25,7 +25,6 @@ import NestedList from './NestedList';
 import TestApi from './TestApi';
 import { Route, BrowserRouter } from 'react-router-dom';
 import OptionsUser from './OptionsUser';
-import MyTable from './MyTable'
 
 function Copyright() {
   return (
@@ -184,7 +183,7 @@ export default function Dashboard() {
               
               <Grid item xs={12}>
                 <Paper className={classes.paper}>
-                  <Route path="/component-api" render={() => <MyTable />}/>
+                  <Route path="/component-api" render={() => <Deposits />}/>
                 </Paper>
               </Grid>
             </Grid>
