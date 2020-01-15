@@ -92,6 +92,7 @@ export default function SignIn(props) {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+            {props.errorMessage.length > 0 && <Typography>{props.errorMessage}</Typography> }
             <Button
               type="submit"
               fullWidth

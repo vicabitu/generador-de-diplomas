@@ -7,6 +7,7 @@ import axios from 'axios';
 function App() {
   
   const [login, setLogin] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
 
   // Verifico si estoy logeado
   useEffect(() => {
@@ -81,8 +82,9 @@ function App() {
       // console.log("Token de acceso: " + localStorage.getItem('access_token'))
       setLogin(true);
     })
-    .catch(function (error) {
-      console.log(error);
+    .catch(function (response) {
+      console.log(response);
+      setErrorMessage('Nombre de usuario o contraseña incorrectos');
     });
   }
   
@@ -93,6 +95,7 @@ function App() {
             // No estoy logeado
             <SignIn 
               handleLogin={handleLogin}
+              errorMessage={errorMessage}
             />
             // Estoy logeado
             : 
