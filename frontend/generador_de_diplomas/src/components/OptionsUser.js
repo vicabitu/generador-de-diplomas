@@ -12,6 +12,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import Badge from '@material-ui/core/Badge';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import IconButton from '@material-ui/core/IconButton';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -82,7 +83,7 @@ export default function OptionsUser(props) {
               <Paper>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                    <MenuItem onClick={handleClose}>Perfil</MenuItem>
+                    <MenuItem component={Link} to={'/perfil'} onClick={handleClose}>Perfil</MenuItem>
                     <MenuItem onClick={handleClose}>Mi Cuenta</MenuItem>
                     <MenuItem onClick={() => {props.handleLogout()}}>Salir</MenuItem>
                   </MenuList>

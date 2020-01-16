@@ -44,6 +44,7 @@ function App() {
           console.log(response);
           localStorage.removeItem('access_token');
           localStorage.removeItem('refresh_token');
+          localStorage.removeItem('user_id');
           setLogin(false);
         });
         
@@ -62,6 +63,7 @@ function App() {
     console.log("LogOut")
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
+    localStorage.removeItem('user_id');
     setLogin(false);
   }
 
@@ -80,7 +82,9 @@ function App() {
       localStorage.setItem('access_token', response.data.access);
       localStorage.setItem('refresh_token', response.data.refresh);
       // console.log("Token de acceso: " + localStorage.getItem('access_token'))
+      localStorage.setItem('user_id', response.data.user_id);
       setLogin(true);
+      // setUserId(response.data.user_id)
     })
     .catch(function (response) {
       console.log(response);
@@ -101,6 +105,7 @@ function App() {
             : 
             <DashBoard 
               handleLogout={handleLogout}
+              userId={localStorage.getItem('user_id')}
             />
           }
         </div>

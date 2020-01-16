@@ -23,6 +23,7 @@ import Orders from './Orders';
 import NestedList from './NestedList';
 import { Route, BrowserRouter } from 'react-router-dom';
 import OptionsUser from './OptionsUser';
+import Profile from './Profile';
 
 function Copyright() {
   return (
@@ -184,6 +185,7 @@ export default function Dashboard(props) {
               <Grid item xs={12}>
                 <Paper className={classes.paper}>
                   <Route path="/component-api" render={() => <Deposits />}/>
+                  <Route path="/perfil" render={() => <Profile userId={props.userId} />} />
                 </Paper>
               </Grid>
             </Grid>
