@@ -6,3 +6,23 @@ class Institution(models.Model):
 
     def __str__(self):
         return "{0}".format(self.name)
+
+class Product(models.Model):
+    code = models.IntegerField()
+
+    def __str__(self):
+        return "{0}".format("Codigo: " + str(self.code))
+
+class AvalImage(models.Model):
+    image = models.ImageField()
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='avales')
+
+    def __str__(self):
+        return "{}".format("Id: " + str(self.id) + " - Aval del producto: " + str(self.product.code))
+
+class FirmaImage(models.Model):
+    image = models.ImageField()
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='firmas')
+
+    def __str__(self):
+        return "{}".format("Id: " + str(self.id) + " - Firma del producto: " + str(self.product.code))
