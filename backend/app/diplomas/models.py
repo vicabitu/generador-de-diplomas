@@ -11,7 +11,7 @@ class Product(models.Model):
     code = models.IntegerField()
 
     def __str__(self):
-        return "{0}".format("Codigo: " + str(self.code))
+        return "{}".format("Id: " + str(self.id) + " - Codigo: " + str(self.code))
 
 class AvalImage(models.Model):
     image = models.ImageField()

@@ -11,3 +11,8 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
+
+class FirmaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FirmaImage
+        fields = '__all__'

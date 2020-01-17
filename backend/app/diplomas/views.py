@@ -18,3 +18,13 @@ class CreateInstitution(APIView):
 
 class CreateProduct(generics.CreateAPIView):
     serializer_class = ProductSerializer
+
+class CreateFirma(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+    def post(self, request, *args, **kwargs):
+        firma_serializer = FirmaSerializer(data=request.data)
+        if firma_serializer.is_valid():
+            firma_serializer.save()
+            return Response(firma_serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(firma_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
