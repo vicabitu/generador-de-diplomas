@@ -69,7 +69,7 @@ export default function NestedList() {
       </ListItem>
       <Collapse in={OpenInstitution} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItem button className={classes.nested}>
+          <ListItem button className={classes.nested} component={Link} to={'/crear_institucion'}>
             <ListItemIcon>
               <AddCircleIcon />
             </ListItemIcon>
