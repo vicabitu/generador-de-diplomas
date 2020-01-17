@@ -4,6 +4,7 @@ from .serializers import *
 from .models import *
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import generics
 
 class CreateInstitution(APIView):
     parser_classes = (MultiPartParser, FormParser)
@@ -14,3 +15,6 @@ class CreateInstitution(APIView):
             return Response(institution_serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(institution_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class CreateProduct(generics.CreateAPIView):
+    serializer_class = ProductSerializer
