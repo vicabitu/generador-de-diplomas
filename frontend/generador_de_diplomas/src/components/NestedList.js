@@ -11,7 +11,6 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import { Link } from 'react-router-dom';
 // Icons
 import SchoolIcon from '@material-ui/icons/School';
-import BeenhereIcon from '@material-ui/icons/Beenhere';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import ListIcon from '@material-ui/icons/List';
 import PostAddIcon from '@material-ui/icons/PostAdd';
@@ -31,15 +30,10 @@ const useStyles = makeStyles(theme => ({
 export default function NestedList() {
   const classes = useStyles();
   const [OpenInstitution, setOpenInstitution] = React.useState(true);
-  const [OpenStamp, setOpenStamp] = React.useState(true);
   const [OpenProduct, setOpenProduct] = React.useState(true);
 
   const handleClickInstitution = () => {
     setOpenInstitution(!OpenInstitution);
-  };
-
-  const handleClickStamp = () => {
-    setOpenStamp(!OpenStamp);
   };
 
   const handleClickProduct = () => {
@@ -74,30 +68,6 @@ export default function NestedList() {
               <AddCircleIcon />
             </ListItemIcon>
             <ListItemText primary="Crear" />
-          </ListItem>
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <ListIcon />
-            </ListItemIcon>
-            <ListItemText primary="Listar" />
-          </ListItem>
-        </List>
-      </Collapse>
-
-      <ListItem button onClick={handleClickStamp}>
-        <ListItemIcon>
-          <BeenhereIcon />
-        </ListItemIcon>
-        <ListItemText primary="Sello" />
-        {OpenStamp ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
-      <Collapse in={OpenStamp} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <AddCircleIcon />
-            </ListItemIcon>
-            <ListItemText primary="Crear avales" />
           </ListItem>
           <ListItem button className={classes.nested}>
             <ListItemIcon>
