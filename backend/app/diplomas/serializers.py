@@ -16,3 +16,8 @@ class FirmaSerializer(serializers.ModelSerializer):
     class Meta:
         model = FirmaImage
         fields = '__all__'
+
+class AvalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AvalImage
+        fields = '__all__'

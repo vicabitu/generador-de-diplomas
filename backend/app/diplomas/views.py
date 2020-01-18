@@ -28,3 +28,13 @@ class CreateFirma(APIView):
             return Response(firma_serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(firma_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class CreateAval(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+    def post(self, request, *args, **kwargs):
+        aval_serializer = AvalSerializer(data=request.data)
+        if aval_serializer.is_valid():
+            aval_serializer.save()
+            return Response(aval_serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(aval_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
