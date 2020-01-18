@@ -25,6 +25,7 @@ import { Route, BrowserRouter } from 'react-router-dom';
 import OptionsUser from './OptionsUser';
 import Profile from './Profile';
 import CreateInstitution from './CreateInstitution';
+import CreateProduct from './CreateProduct'
 
 function Copyright() {
   return (
@@ -188,6 +189,7 @@ export default function Dashboard(props) {
                   <Route path="/component-api" render={() => <Deposits />}/>
                   <Route path="/perfil" render={() => <Profile userId={props.userId} />} />
                   <Route path="/crear_institucion" render={() => <CreateInstitution />} />
+                  <Route path="/crear_producto"  render={() => <CreateProduct />} />
                 </Paper>
               </Grid>
             </Grid>

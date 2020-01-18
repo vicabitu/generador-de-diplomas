@@ -87,11 +87,11 @@ export default function NestedList() {
       </ListItem>
       <Collapse in={OpenProduct} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItem button className={classes.nested}>
+          <ListItem button className={classes.nested} component={Link} to={'/crear_producto'}>
             <ListItemIcon>
               <AddCircleIcon />
             </ListItemIcon>
-            <ListItemText primary="Crear firmas" />
+            <ListItemText primary="Crear producto" />
           </ListItem>
           <ListItem button className={classes.nested}>
             <ListItemIcon>
