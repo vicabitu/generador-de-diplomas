@@ -9,7 +9,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
+import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = {
   root: {
@@ -32,7 +33,8 @@ class CreateProduct extends React.Component {
       firmas: null,
       producto_id: null,
       openDialog: false,
-      errorMessage: ''
+      errorMessage: '',
+      openBar: false
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -42,6 +44,7 @@ class CreateProduct extends React.Component {
     this.createAvales = this.createAvales.bind(this);
     this.createProduct = this.createProduct.bind(this);
     this.handleDialog = this.handleDialog.bind(this);
+    this.handleBar = this.handleBar.bind(this);
   }
 
   handleSubmit(e) {
@@ -66,9 +69,10 @@ class CreateProduct extends React.Component {
       this.setState({producto_id: response.data.id});
       this.createFirmas();
       this.createAvales();
+      this.setState({openBar: true});
     })
     .catch((response) => {
-      let message = 'El producto con el codigo: ' + this.state.code + ' ya existe.';
+      let message = 'El producto con el código: ' + this.state.code + ' ya existe.';
       this.setState({errorMessage: message});
       this.setState({openDialog: true});
     });
@@ -146,12 +150,16 @@ class CreateProduct extends React.Component {
   handleAvales = (files) => {
     console.log("handle avales")
     console.log(files);
-    this.setState({avales:files})
-    console.log(this.state.avales)
+    this.setState({avales:files});
+    console.log(this.state.avales);
   };
 
   handleDialog = () => {
     this.setState({openDialog: false});
+  }
+
+  handleBar = () => {
+    this.setState({openBar: false});
   }
 
   render() {
@@ -247,7 +255,9 @@ class CreateProduct extends React.Component {
           >
             <DialogTitle id="alert-dialog-title">Error</DialogTitle>
             <DialogContent id="alert-dialog-description">
-              {this.state.errorMessage}
+              <DialogContentText id="alert-dialog-description">
+                {this.state.errorMessage}
+              </DialogContentText>
             </DialogContent>
             <DialogActions>
               <Button onClick={() => this.handleDialog()} color="primary">
@@ -257,6 +267,13 @@ class CreateProduct extends React.Component {
           </Dialog>
         </div>
 
+        <div>
+          <Snackbar open={this.state.openBar} autoHideDuration={6000} onClose={() => this.handleBar()}>
+            <Alert onClose={() => this.handleBar()} severity="success" variant="filled">
+              Producto creado con exito!
+            </Alert>
+          </Snackbar>
+        </div>
 
       </div>
     );
