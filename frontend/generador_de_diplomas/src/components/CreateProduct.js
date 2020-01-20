@@ -4,6 +4,12 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import Typography from '@material-ui/core/Typography';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
 
 const useStyles = {
   root: {
@@ -24,7 +30,9 @@ class CreateProduct extends React.Component {
       code: '',
       avales: null,
       firmas: null,
-      producto_id: null
+      producto_id: null,
+      openDialog: false,
+      errorMessage: ''
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -33,6 +41,7 @@ class CreateProduct extends React.Component {
     this.createFirmas = this.createFirmas.bind(this);
     this.createAvales = this.createAvales.bind(this);
     this.createProduct = this.createProduct.bind(this);
+    this.handleDialog = this.handleDialog.bind(this);
   }
 
   handleSubmit(e) {
@@ -58,8 +67,10 @@ class CreateProduct extends React.Component {
       this.createFirmas();
       this.createAvales();
     })
-    .catch(function (error) {
-      console.log("Error");
+    .catch((response) => {
+      let message = 'El producto con el codigo: ' + this.state.code + ' ya existe.';
+      this.setState({errorMessage: message});
+      this.setState({openDialog: true});
     });
   }
 
@@ -138,6 +149,10 @@ class CreateProduct extends React.Component {
     this.setState({avales:files})
     console.log(this.state.avales)
   };
+
+  handleDialog = () => {
+    this.setState({openDialog: false});
+  }
 
   render() {
     if (this.state.firmas) {
@@ -222,6 +237,27 @@ class CreateProduct extends React.Component {
           Guardar
         </Button>
         </form>
+
+        <div>
+          <Dialog
+            open={this.state.openDialog}
+            onClose={() => this.handleDialog()}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">Error</DialogTitle>
+            <DialogContent id="alert-dialog-description">
+              {this.state.errorMessage}
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => this.handleDialog()} color="primary">
+                Aceptar
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </div>
+
+
       </div>
     );
   }
