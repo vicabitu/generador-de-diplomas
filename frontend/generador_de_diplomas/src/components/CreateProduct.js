@@ -125,7 +125,6 @@ class CreateProduct extends React.Component {
     }
   }
 
-  
   handleFirmas = (files) => {
     console.log("handle firmas");
     console.log(files);
@@ -141,6 +140,21 @@ class CreateProduct extends React.Component {
   };
 
   render() {
+    if (this.state.firmas) {
+      var listFirmas = [];
+      for (var [key, value] of Object.entries(this.state.firmas)) {
+        let item = <li key={key}>{value.name}</li>;
+        listFirmas[key] = item;
+      }
+    }
+    
+    if (this.state.avales) {
+      var listAvales = [];
+      for (var [key, value] of Object.entries(this.state.avales)) {
+        let item = <li key={key}>{value.name}</li>;
+        listAvales[key] = item;
+      }
+    }
     return (
       <div style={useStyles.root}>
         <form noValidate onSubmit={e => this.handleSubmit(e)}>
@@ -158,7 +172,7 @@ class CreateProduct extends React.Component {
           onChange={(e) => this.setState({code:e.target.value})}
         />
       
-        {/* <input
+        <input
           accept="image/*"
           style={{display: 'none'}}
           id="contained-button-file-firmas"
@@ -168,15 +182,15 @@ class CreateProduct extends React.Component {
           // onChange={(d) => this.setState({firmas:d.target.files})}
           onChange={(e) => this.handleFirmas(e.target.files)}
         />
-        <label htmlFor="contained-button-file">
-          <Button variant="contained" color="primary" component="span" style={{marginTop: 20}}>
+        <label htmlFor="contained-button-file-firmas">
+          <Button variant="contained" color="primary" component="span" style={{marginTop: 20}} fullWidth>
             <CloudUploadIcon style={{marginRight: 10}} />
             Seleccionar firmas
           </Button>
-        </label> */}
+        </label>
 
-        <p>Firma</p>
-        <input type='file' multiple onChange={(e) => this.handleFirmas(e.target.files)}></input>
+        {/* Listado de archivos de firmas */}
+        <ul>{listFirmas}</ul>
 
         <input
           accept="image/*"
@@ -189,13 +203,15 @@ class CreateProduct extends React.Component {
           onChange={(e) => this.handleAvales(e.target.files)}
         />
         <label htmlFor="contained-button-file">
-          <Button variant="contained" color="primary" component="span" style={{marginTop: 20}}>
+          <Button variant="contained" color="primary" component="span" style={{marginTop: 20}} fullWidth>
             <CloudUploadIcon style={{marginRight: 10}} />
             Seleccionar avales
           </Button>
         </label>
 
-      
+        {/* Listado de archivos de avales */}
+        <ul>{listAvales}</ul>
+
         <Button 
           type="submit"
           fullWidth
