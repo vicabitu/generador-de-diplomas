@@ -18,6 +18,20 @@ class CreateInstitution(APIView):
 
 class CreateProduct(generics.CreateAPIView):
     serializer_class = ProductSerializer
+    queryset = Product.objects.all()
+
+    def post(self, request, *args, **kwargs):
+        product = self.queryset.filter(code=request.data["code"]).first()
+        if product is None:
+            new_product = Product.objects.create(code=request.data["code"])
+            return Response(data=ProductSerializer(new_product).data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(
+                data={
+                    "error": f"Ya existe el producto con el codigo: '{request.data['code']}'.",
+                },
+                status=status.HTTP_409_CONFLICT
+            )
 
 class CreateFirma(APIView):
     parser_classes = (MultiPartParser, FormParser)
