@@ -80,7 +80,7 @@ class CreateInstitution extends React.Component {
       <div style={useStyles.root}>
         <form noValidate onSubmit={e => this.handleSubmit(e)}>
         <Typography component="h1" variant="h5">
-          Crear institucion
+          Crear institución
         </Typography>
           
         <TextField
