@@ -20,6 +20,10 @@ class ListInstitution(generics.ListAPIView):
     serializer_class = ListInstitutionSerializer
     queryset = Institution.objects.all()
 
+class DeleteInstitution(generics.DestroyAPIView):
+    serializer_class = InstitutionSerializer
+    queryset = Institution.objects.all()
+
 class CreateProduct(generics.CreateAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
