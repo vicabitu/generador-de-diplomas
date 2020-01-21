@@ -69,7 +69,7 @@ export default function NestedList() {
             </ListItemIcon>
             <ListItemText primary="Crear" />
           </ListItem>
-          <ListItem button className={classes.nested}>
+          <ListItem button className={classes.nested} component={Link} to={'/listado_de_instituciones'}>
             <ListItemIcon>
               <ListIcon />
             </ListItemIcon>

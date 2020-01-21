@@ -25,7 +25,9 @@ import { Route, BrowserRouter } from 'react-router-dom';
 import OptionsUser from './OptionsUser';
 import Profile from './Profile';
 import CreateInstitution from './CreateInstitution';
-import CreateProduct from './CreateProduct'
+import CreateProduct from './CreateProduct';
+import InstitutionsList from './InstitutionsList';
+import InstitutionDetail from './InstitutionDetail';
 
 function Copyright() {
   return (
@@ -190,6 +192,8 @@ export default function Dashboard(props) {
                   <Route path="/perfil" render={() => <Profile userId={props.userId} />} />
                   <Route path="/crear_institucion" render={() => <CreateInstitution />} />
                   <Route path="/crear_producto"  render={() => <CreateProduct />} />
+                  <Route path="/listado_de_instituciones" render={() => <InstitutionsList />} />
+                  <Route path="/detalle_institucion/:id" component={InstitutionDetail}/>
                 </Paper>
               </Grid>
             </Grid>
