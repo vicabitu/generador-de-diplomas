@@ -7,6 +7,11 @@ class InstitutionSerializer(serializers.ModelSerializer):
         model = Institution
         fields = ['name', 'logo']
 
+class ListInstitutionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Institution
+        fields = ['name', 'logo', 'id']
+
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product

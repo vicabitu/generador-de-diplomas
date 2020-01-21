@@ -16,6 +16,10 @@ class CreateInstitution(APIView):
         else:
             return Response(institution_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class ListInstitution(generics.ListAPIView):
+    serializer_class = ListInstitutionSerializer
+    queryset = Institution.objects.all()
+
 class CreateProduct(generics.CreateAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
