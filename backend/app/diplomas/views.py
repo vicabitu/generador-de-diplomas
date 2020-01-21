@@ -24,6 +24,32 @@ class DeleteInstitution(generics.DestroyAPIView):
     serializer_class = InstitutionSerializer
     queryset = Institution.objects.all()
 
+class GetInstitution(generics.RetrieveAPIView):
+    serializer_class = ListInstitutionSerializer
+    queryset = Institution.objects.all()
+
+class UpdateInstitution(generics.UpdateAPIView):
+    serializer_class = InstitutionSerializer
+    queryset = Institution.objects.all()
+
+    def put(self, request, *args, **kwargs):
+
+        institution = self.queryset.filter(id=request.data['id']).first()
+
+        if request.data['logo'] != '' and request.data['name'] != '': # tengo logo e imagen, modifico los dos campos
+            institution.name = request.data['name']
+            institution.logo = request.data['logo']
+            institution.save()
+            return Response(data=InstitutionSerializer(institution).data, status=status.HTTP_200_OK)
+        elif request.data['logo'] != '': # tengo imagen, modifico solo la imagen
+            institution.logo = request.data['logo']
+            institution.save()
+            return Response(data=InstitutionSerializer(institution).data, status=status.HTTP_200_OK)
+        elif request.data['name'] != '': # tengo nombre, modifico solo el nombre
+            institution.name = request.data['name']
+            institution.save()
+            return Response(data=InstitutionSerializer(institution).data, status=status.HTTP_200_OK)
+    
 class CreateProduct(generics.CreateAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
