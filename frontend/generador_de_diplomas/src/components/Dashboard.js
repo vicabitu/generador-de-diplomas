@@ -28,6 +28,7 @@ import CreateInstitution from './CreateInstitution';
 import CreateProduct from './CreateProduct';
 import InstitutionsList from './InstitutionsList';
 import InstitutionDetail from './InstitutionDetail';
+import ProductsList from './ProductsList';
 
 function Copyright() {
   return (
@@ -194,6 +195,7 @@ export default function Dashboard(props) {
                   <Route path="/crear_producto"  render={() => <CreateProduct />} />
                   <Route path="/listado_de_instituciones" render={() => <InstitutionsList />} />
                   <Route path="/detalle_institucion/:id" component={InstitutionDetail}/>
+                  <Route path="/listado_de_productos" render={() => <ProductsList />} />
                 </Paper>
               </Grid>
             </Grid>
