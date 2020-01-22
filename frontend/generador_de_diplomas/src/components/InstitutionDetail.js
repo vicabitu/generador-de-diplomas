@@ -4,18 +4,25 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import Typography from '@material-ui/core/Typography';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const useStyles = {
   root: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    openDialog: false
   },
   submit: {
     marginTop: 20
   }
 };
 
+// Componente encargado de mostrar el detalle de una institucion y de la modificacion
 class InstitutionDetail extends React.Component {
 
   constructor(props) {
@@ -28,6 +35,7 @@ class InstitutionDetail extends React.Component {
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDialog = this.handleDialog.bind(this);
   }
 
   componentDidMount() {
@@ -49,6 +57,10 @@ class InstitutionDetail extends React.Component {
     e.preventDefault();
 
     const url = 'http://127.0.0.1:8000/api/modificar_institucion/'+this.state.id_institution;
+    if (this.state.name.length == 0) {
+      this.setState({openDialog: true});
+      return;
+    }
     const formData = new FormData()
     formData.append('name', this.state.name);
     if (this.state.new_logo) {
@@ -71,6 +83,10 @@ class InstitutionDetail extends React.Component {
     });
   }
 
+  handleDialog = () => {
+    this.setState({openDialog: false});
+  }
+
   render() {
     if (this.state.new_logo) {
       var listLogos = [];
@@ -80,64 +96,88 @@ class InstitutionDetail extends React.Component {
       }
     }
     return (
-      <div style={useStyles.root}>
-        <form noValidate onSubmit={e => this.handleSubmit(e)}>
-          <Typography component="h1" variant="h5">
-            Modificar institución
-          </Typography>
-          
-          <TextField
-            name='nombre'
-            label='Nombre'
-            type='text'
-            margin='normal'
-            fullWidth
-            placeholder='Nombre'
-            value={this.state.name}
-            onChange={(e) => this.setState({name:e.target.value})}
-          />
-
-          <div>
-            <Typography variant="h6">
-              Logo actual:
+      <div>
+        <div style={useStyles.root}>
+          <form noValidate onSubmit={e => this.handleSubmit(e)}>
+            <Typography component="h1" variant="h5">
+              Modificar institución
             </Typography>
-            <img style={{width: 200, height: 200}} src={this.state.logo ? this.state.logo : ''} />
-          </div>
-      
-          <input
-            accept="image/*"
-            style={{display: 'none'}}
-            id="contained-button-file"
-            type="file"
-            onChange={(e) => this.setState({new_logo:e.target.files})}
-          />
-          <label htmlFor="contained-button-file">
-            <Button variant="contained" color="primary" component="span" style={{marginTop: 20}}>
-              <CloudUploadIcon style={{marginRight: 10}} />
-              Cambiar logo
-            </Button>
-          </label>
+            
+            <TextField
+              name='nombre'
+              label='Nombre'
+              type='text'
+              margin='normal'
+              fullWidth
+              placeholder='Nombre'
+              value={this.state.name}
+              onChange={(e) => this.setState({name:e.target.value})}
+            />
 
-          
-          {this.state.new_logo  && 
-            <div style={{marginTop: 30}}>
+            <div>
               <Typography variant="h6">
-                Nuevo logo:
+                Logo actual:
               </Typography>
-              <ul>{listLogos}</ul>
+              <img style={{width: 200, height: 200}} src={this.state.logo ? this.state.logo : ''} />
             </div>
-          }
-      
-          <Button 
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            style={useStyles.submit}
-          >
-            Guardar
-          </Button>
-        </form>
+        
+            <input
+              accept="image/*"
+              style={{display: 'none'}}
+              id="contained-button-file"
+              type="file"
+              onChange={(e) => this.setState({new_logo:e.target.files})}
+            />
+            <label htmlFor="contained-button-file">
+              <Button variant="contained" color="primary" component="span" style={{marginTop: 20}}>
+                <CloudUploadIcon style={{marginRight: 10}} />
+                Cambiar logo
+              </Button>
+            </label>
+
+            
+            {this.state.new_logo  && 
+              <div style={{marginTop: 30}}>
+                <Typography variant="h6">
+                  Nuevo logo:
+                </Typography>
+                <ul>{listLogos}</ul>
+              </div>
+            }
+        
+            <Button 
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              style={useStyles.submit}
+            >
+              Guardar
+            </Button>
+          </form>
+        </div>
+
+        <div>
+          {/* Mensaje de error para cuando dejan vacio el campo de nombre */}
+          <Dialog
+              open={this.state.openDialog}
+              onClose={() => this.handleDialog()}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">Error</DialogTitle>
+              <DialogContent id="alert-dialog-description">
+                <DialogContentText id="alert-dialog-description">
+                  Debe ingresar el nombre de la institución.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => this.handleDialog()} color="primary">
+                  Aceptar
+                </Button>
+              </DialogActions>
+            </Dialog>
+        </div>
       </div>
     )
   }
