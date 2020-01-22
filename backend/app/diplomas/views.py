@@ -67,6 +67,10 @@ class CreateProduct(generics.CreateAPIView):
                 status=status.HTTP_409_CONFLICT
             )
 
+class DeleteProduct(generics.DestroyAPIView):
+    serializer_class = ProductSerializer
+    queryset = Product.objects.all()
+
 class ListProducts(generics.ListAPIView):
     serializer_class = ListProductSerializer
     queryset = Product.objects.all()
