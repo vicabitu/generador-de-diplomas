@@ -67,6 +67,10 @@ class CreateProduct(generics.CreateAPIView):
                 status=status.HTTP_409_CONFLICT
             )
 
+class ListProducts(generics.ListAPIView):
+    serializer_class = ListProductSerializer
+    queryset = Product.objects.all()
+
 class CreateFirma(APIView):
     parser_classes = (MultiPartParser, FormParser)
     def post(self, request, *args, **kwargs):

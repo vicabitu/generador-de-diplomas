@@ -26,3 +26,11 @@ class AvalSerializer(serializers.ModelSerializer):
     class Meta:
         model = AvalImage
         fields = '__all__'
+
+class ListProductSerializer(serializers.ModelSerializer):
+    firmas = FirmaSerializer(many=True)
+    avales = AvalSerializer(many=True)
+
+    class Meta:
+        model = Product
+        fields = ['id', 'code', 'firmas', 'avales']
