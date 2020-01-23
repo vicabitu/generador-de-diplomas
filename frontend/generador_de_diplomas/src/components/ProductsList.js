@@ -10,6 +10,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 
 class ProductsList extends React.Component {
 
@@ -90,12 +91,12 @@ class ProductsList extends React.Component {
                 title: 'Ver detalle',
                 field: 'detail',
                 render: rowData => (
-                  // <Link style={{ color: 'inherit', textDecoration: 'inherit'}} to={`/detalle_institucion/${rowData.id}`}>
+                  <Link style={{ color: 'inherit', textDecoration: 'inherit'}} to={`/detalle_de_producto/${rowData.id}`}>
                     <IconButton>
                       <VisibilityIcon>
                       </VisibilityIcon>
                     </IconButton>
-                  // </Link>
+                  </Link>
                 )
               },
               {
