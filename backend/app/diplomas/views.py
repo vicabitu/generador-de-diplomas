@@ -75,6 +75,10 @@ class ListProducts(generics.ListAPIView):
     serializer_class = ListProductSerializer
     queryset = Product.objects.all()
 
+class GetProduct(generics.RetrieveAPIView):
+    serializer_class = ListProductSerializer
+    queryset = Product.objects.all()
+
 class CreateFirma(APIView):
     parser_classes = (MultiPartParser, FormParser)
     def post(self, request, *args, **kwargs):
@@ -85,6 +89,10 @@ class CreateFirma(APIView):
         else:
             return Response(firma_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class DeleteFirma(generics.DestroyAPIView):
+    serializer_class = FirmaSerializer
+    queryset = FirmaImage.objects.all()
+
 class CreateAval(APIView):
     parser_classes = (MultiPartParser, FormParser)
     def post(self, request, *args, **kwargs):
@@ -94,3 +102,7 @@ class CreateAval(APIView):
             return Response(aval_serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(aval_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class DeleteAval(generics.DestroyAPIView):
+    serializer_class = AvalSerializer
+    queryset = AvalImage.objects.all()
