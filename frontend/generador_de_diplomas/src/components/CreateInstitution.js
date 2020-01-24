@@ -77,6 +77,9 @@ class CreateInstitution extends React.Component {
   }
 
   render() {
+    var name_logo = '';
+    this.state.logo ? name_logo = this.state.logo.name : name_logo = '';
+
     return (
       <div style={useStyles.root}>
         <form noValidate onSubmit={e => this.handleSubmit(e)}>
@@ -98,7 +101,6 @@ class CreateInstitution extends React.Component {
           accept="image/*"
           style={{display: 'none'}}
           id="contained-button-file"
-          multiple
           type="file"
           onChange={(e) => this.setState({logo:e.target.files[0]})}
         />
@@ -108,6 +110,14 @@ class CreateInstitution extends React.Component {
             Seleccionar logo
           </Button>
         </label>
+
+        {/* Muestro el nombre del archivo que seleccionaron */}
+        {name_logo &&
+          <div>
+            <p style={{fontWeight: 'bold'}}>Imagen seleccionada:</p>
+            <p style={{fontWeight: 'bold'}}>{name_logo}</p>
+          </div>
+        }
       
         <Button 
           type="submit"
