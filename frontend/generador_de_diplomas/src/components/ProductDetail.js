@@ -160,9 +160,11 @@ class InstitutionDetail extends React.Component {
     var firmas;
     var avales;
     var nombre_firma;
+    var nombre_aval;
     this.state.product ? firmas = this.state.product.firmas : firmas = [];
     this.state.product ? avales = this.state.product.avales : avales = [];
     this.state.imagenFirma ? nombre_firma = this.state.imagenFirma.name : nombre_firma = '';
+    this.state.imagenAval ? nombre_aval = this.state.imagenAval.name : nombre_aval = ''
 
     return (
       <Grid style={useStyles.root}>
@@ -273,6 +275,13 @@ class InstitutionDetail extends React.Component {
                   Seleccionar aval
                 </Button>
               </label>
+              {/* Muestro el nombre del archivo que seleccionaron */}
+              {nombre_aval &&
+                <div>
+                  <p style={{fontWeight: 'bold'}}>Imagen seleccionada:</p>
+                  <p style={{fontWeight: 'bold'}}>{nombre_aval}</p>
+                </div>
+              }
           </DialogContent>
           <DialogActions>
             <Button onClick={ () => this.handleCloseModalCreateAval() } color="primary">
