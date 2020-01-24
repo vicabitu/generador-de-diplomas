@@ -60,6 +60,7 @@ class CreateInstitution extends React.Component {
     .then((response) => {
       console.log("Entre al then");
       this.setState({openBar: true});
+      window.location.reload();
     })
     .catch(function (error) {
       console.log("Error");
