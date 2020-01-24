@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
@@ -10,11 +9,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import DeleteIcon from '@material-ui/icons/Delete';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
-import Icon from '@material-ui/core/Icon';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -51,13 +46,17 @@ class InstitutionDetail extends React.Component {
       id_producto: null,
       product: null,
       openModalCreateFirma: false,
-      imagenFirma: null
+      imagenFirma: null,
+      openModalCreateAval: false,
+      imagenAval: null
     }
 
     this.handleDeleteFirma = this.handleDeleteFirma.bind(this);
     this.handleDeleteAval = this.handleDeleteAval.bind(this);
     this.handleCloseModalCreateFirma = this.handleCloseModalCreateFirma.bind(this);
     this.handleConfirmModalCreateFirma = this.handleConfirmModalCreateFirma.bind(this);
+    this.handleCloseModalCreateAval = this.handleCloseModalCreateAval.bind(this);
+    this.handleConfirmModalCreateAval = this.handleConfirmModalCreateAval.bind(this);
   }
 
   componentDidMount() {
@@ -131,6 +130,31 @@ class InstitutionDetail extends React.Component {
       console.log("Error");
     });
   }
+
+  handleCloseModalCreateAval() {
+    this.setState({openModalCreateAval: false});
+    this.setState({imagenAval: null});
+  }
+
+  handleConfirmModalCreateAval() {
+    const url = 'http://127.0.0.1:8000/api/crear_aval';
+    const formData = new FormData();
+    formData.append('image', this.state.imagenAval);
+    formData.append('product', this.state.id_producto);
+    
+    const config = {
+    headers: {
+        'content-type': 'multipart/form-data'
+      }
+    };
+    axios.post(url, formData, config)
+    .then(function (response) {
+      window.location.reload();
+    })
+    .catch(function (error) {
+      console.log("Error");
+    });
+  }
   
   render() {
     var firmas;
@@ -140,7 +164,6 @@ class InstitutionDetail extends React.Component {
 
     return (
       <Grid style={useStyles.root}>
-        
         <Grid>
           <Typography variant="h4" gutterBottom>
             Firmas
@@ -158,27 +181,8 @@ class InstitutionDetail extends React.Component {
                       src={item.image}
                     />
                   </CardMedia>
-
-                  {/* <CardMedia
-                    style={useStyles.media}
-                    image={item.image}
-                    title="Contemplative Reptile"
-                  /> */}
-
-                  {/* <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Lizard
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                      Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                      across all continents except Antarctica
-                    </Typography>
-                  </CardContent> */}
                 </CardActionArea>
                 <CardActions>
-                  {/* <Button size="small" color="primary">
-                    Eliminar firma
-                  </Button> */}
                   <Button
                     style={{color: '#6976BB'}}
                     startIcon={<DeleteIcon />}
@@ -220,25 +224,8 @@ class InstitutionDetail extends React.Component {
                       src={item.image}
                     />
                   </CardMedia>
-
-                  {/* <CardMedia
-                    style={useStyles.media}
-                    image={item.image}
-                    title="Contemplative Reptile"
-                  /> */}
-
-                  {/* <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Lizard
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                      Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                      across all continents except Antarctica
-                    </Typography>
-                  </CardContent> */}
                 </CardActionArea>
                 <CardActions>
-                  
                   <Button
                     style={{color: '#6976BB'}}
                     startIcon={<DeleteIcon />}
@@ -251,16 +238,51 @@ class InstitutionDetail extends React.Component {
             </Grid>
           ))}
         </Grid>
+        
         <Grid style={{marginTop: 30}} >
           <Button
             variant="text"
             startIcon={<AddCircleIcon />}
             style={{color: '#6976BB'}}
+            onClick={ () => this.setState({openModalCreateAval: true}) }
           >
             Crear Aval
           </Button>
         </Grid>
 
+        {/* Modal de crear aval */}
+        <Dialog open={this.state.openModalCreateAval} onClose={ () => this.handleCloseModalCreateAval() } aria-labelledby="form-dialog-title">
+          <DialogTitle id="form-dialog-title">Crear Aval</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Seleccione la imagen del aval.
+            </DialogContentText>
+              <input
+                accept="image/*"
+                style={{display: 'none'}}
+                id="contained-button-file-firmas"
+                type="file"
+                name="firmas"
+                onChange={(e) => this.setState({imagenAval: e.target.files[0]})}
+              />
+              <label htmlFor="contained-button-file-firmas">
+                <Button variant="contained" color="primary" component="span" style={{marginTop: 20}} fullWidth>
+                  <CloudUploadIcon style={{marginRight: 10}} />
+                  Seleccionar aval
+                </Button>
+              </label>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={ () => this.handleCloseModalCreateAval() } color="primary">
+              Cancelar
+            </Button>
+            <Button onClick={ () => this.handleConfirmModalCreateAval() } color="primary">
+              Aceptar
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        {/* Modal de crear firma */}
         <Dialog open={this.state.openModalCreateFirma} onClose={ () => this.handleCloseModalCreateFirma() } aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">Crear firma</DialogTitle>
           <DialogContent>
