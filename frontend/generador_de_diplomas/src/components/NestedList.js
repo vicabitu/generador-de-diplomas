@@ -47,7 +47,7 @@ export default function NestedList() {
       className={classes.root}
     >
       
-      <ListItem button component={Link} to={'/component-api'}>
+      <ListItem button component={Link} to={'/generar_diplomas'}>
         <ListItemIcon>
           <PostAddIcon />
         </ListItemIcon>

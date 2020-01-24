@@ -30,6 +30,7 @@ import InstitutionsList from './InstitutionsList';
 import InstitutionDetail from './InstitutionDetail';
 import ProductsList from './ProductsList';
 import ProductDetail from './ProductDetail';
+import GenerateDiplomas from './GenerateDiplomas';
 
 function Copyright() {
   return (
@@ -190,7 +191,7 @@ export default function Dashboard(props) {
               
               <Grid item xs={12}>
                 <Paper className={classes.paper}>
-                  <Route path="/component-api" render={() => <Deposits />}/>
+                  <Route path="/generar_diplomas" render={() => <GenerateDiplomas />}/>
                   <Route path="/perfil" render={() => <Profile userId={props.userId} />} />
                   <Route path="/crear_institucion" render={() => <CreateInstitution />} />
                   <Route path="/crear_producto"  render={() => <CreateProduct />} />
