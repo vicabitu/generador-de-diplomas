@@ -10,6 +10,18 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import Icon from '@material-ui/core/Icon';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import TextField from '@material-ui/core/TextField';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 const useStyles = {
   card: {
@@ -23,10 +35,10 @@ const useStyles = {
     // maxHeight: '100%',
   },
   root: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    openDialog: false,
+    // display: 'flex',
+    // flexDirection: 'column',
+    // alignItems: 'center',
+    // openDialog: false,
   },
 };
 
@@ -36,13 +48,16 @@ class InstitutionDetail extends React.Component {
     super(props)
     this.state = {
       name: '',
-      new_logo: null,
       id_producto: null,
-      product: null
+      product: null,
+      openModalCreateFirma: false,
+      imagenFirma: null
     }
 
     this.handleDeleteFirma = this.handleDeleteFirma.bind(this);
     this.handleDeleteAval = this.handleDeleteAval.bind(this);
+    this.handleCloseModalCreateFirma = this.handleCloseModalCreateFirma.bind(this);
+    this.handleConfirmModalCreateFirma = this.handleConfirmModalCreateFirma.bind(this);
   }
 
   componentDidMount() {
@@ -89,7 +104,32 @@ class InstitutionDetail extends React.Component {
     .catch(function (error) {
       console.log("Error");
     });
+  }
 
+  handleCloseModalCreateFirma() {
+    this.setState({openModalCreateFirma: false});
+    this.setState({imagenFirma: null});
+  }
+
+  handleConfirmModalCreateFirma() {
+    const url = 'http://127.0.0.1:8000/api/crear_firma';
+    const formData = new FormData();
+      
+    formData.append('image', this.state.imagenFirma);
+    formData.append('product', this.state.id_producto);
+    
+    const config = {
+      headers: {
+          'content-type': 'multipart/form-data'
+        }
+    };
+    axios.post(url, formData, config)
+    .then(function (response) {
+      window.location.reload();
+    })
+    .catch(function (error) {
+      console.log("Error");
+    });
   }
   
   render() {
@@ -101,12 +141,12 @@ class InstitutionDetail extends React.Component {
     return (
       <Grid style={useStyles.root}>
         
-          <Grid>
-            <Typography variant="h4" gutterBottom>
-              Firmas
-            </Typography>
-          </Grid>
-          <Grid container spacing={2}>
+        <Grid>
+          <Typography variant="h4" gutterBottom>
+            Firmas
+          </Typography>
+        </Grid>
+        <Grid container spacing={2}>
           {firmas.map(item => (
             <Grid key={item.id} item xs={3}>
               <Card style={useStyles.card}>
@@ -151,13 +191,24 @@ class InstitutionDetail extends React.Component {
             </Grid>
           ))}
         </Grid>
-          
+
         <Grid style={{marginTop: 30}}>
-            <Typography variant="h4" gutterBottom>
-              Avales
-            </Typography>
-          </Grid>
-          <Grid container spacing={2}>
+          <Button
+            variant="text"
+            startIcon={<AddCircleIcon />}
+            style={{color: '#6976BB'}}
+            onClick={ () => this.setState({openModalCreateFirma: true}) }
+          >
+            Crear Firma
+          </Button>
+        </Grid>
+
+        <Grid style={{marginTop: 30}}>
+          <Typography variant="h4" gutterBottom>
+            Avales
+          </Typography>
+        </Grid>
+        <Grid container spacing={2}>
           {avales.map(item => (
             <Grid key={item.id} item xs={3}>
               <Card style={useStyles.card}>
@@ -193,13 +244,54 @@ class InstitutionDetail extends React.Component {
                     startIcon={<DeleteIcon />}
                     onClick={ () => this.handleDeleteAval(item.id) }
                   >
-                    Eliminar firma
+                    Eliminar aval
                   </Button>
                 </CardActions>
               </Card>
             </Grid>
           ))}
         </Grid>
+        <Grid style={{marginTop: 30}} >
+          <Button
+            variant="text"
+            startIcon={<AddCircleIcon />}
+            style={{color: '#6976BB'}}
+          >
+            Crear Aval
+          </Button>
+        </Grid>
+
+        <Dialog open={this.state.openModalCreateFirma} onClose={ () => this.handleCloseModalCreateFirma() } aria-labelledby="form-dialog-title">
+          <DialogTitle id="form-dialog-title">Crear firma</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Seleccione la imagen de la firma.
+            </DialogContentText>
+              <input
+                accept="image/*"
+                style={{display: 'none'}}
+                id="contained-button-file-firmas"
+                type="file"
+                name="firmas"
+                onChange={(e) => this.setState({imagenFirma: e.target.files[0]})}
+              />
+              <label htmlFor="contained-button-file-firmas">
+                <Button variant="contained" color="primary" component="span" style={{marginTop: 20}} fullWidth>
+                  <CloudUploadIcon style={{marginRight: 10}} />
+                  Seleccionar firma
+                </Button>
+              </label>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={ () => this.handleCloseModalCreateFirma() } color="primary">
+              Cancelar
+            </Button>
+            <Button onClick={ () => this.handleConfirmModalCreateFirma() } color="primary">
+              Aceptar
+            </Button>
+          </DialogActions>
+        </Dialog>
+      
       </Grid>
     );
   }
