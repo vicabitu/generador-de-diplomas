@@ -20,7 +20,8 @@ class Profile extends React.Component {
     super(props);
     this.state = {
       name: '',
-      last_name: ''
+      last_name: '',
+      email: ''
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -31,9 +32,12 @@ class Profile extends React.Component {
     let url = 'http://127.0.0.1:8000/api/user/'+this.props.userId;
     console.log(url);
     axios.get(url)
-    .then((response) => { 
+    .then((response) => {
+      console.log("Entre al then");
+      console.log(response.data);
       this.setState({name: response.data.first_name});
       this.setState({last_name: response.data.last_name});
+      this.setState({email: response.data.email});
     })
     .catch(function (error) {
       // handle error
@@ -45,9 +49,10 @@ class Profile extends React.Component {
     e.preventDefault();
 
     let url = 'http://127.0.0.1:8000/api/update_user/'+this.props.userId;
-    const data = {"first_name": this.state.name, "last_name": this.state.last_name};
+    const data = {"first_name": this.state.name, "last_name": this.state.last_name, "email": this.state.email};
     axios.put(url, data)
     .then(function (response) {
+      window.location.reload();
     })
     .catch(function (error) {
     });
@@ -77,6 +82,16 @@ class Profile extends React.Component {
             placeholder='Apellido'
             value={this.state.last_name}
             onChange={(e) => this.setState({last_name:e.target.value})}
+          />
+          <TextField
+            name='email'
+            label='Email'
+            type='text'
+            margin='normal'
+            fullWidth
+            placeholder='Email'
+            value={this.state.email}
+            onChange={(e) => this.setState({email:e.target.value})}
           />
           <Button
             type="submit"
