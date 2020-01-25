@@ -179,11 +179,15 @@ class InstitutionDetail extends React.Component {
               <Card style={useStyles.card}>
                 <CardActionArea>
                   <CardMedia>
-                    <img
-                      style={useStyles.media}
-                      alt="complex"
-                      src={item.image}
-                    />
+                    <a
+                      href={item.image}
+                      target="_blank">
+                      <img
+                        style={useStyles.media}
+                        alt="complex"
+                        src={item.image}
+                      />
+                    </a>
                   </CardMedia>
                 </CardActionArea>
                 <CardActions>
@@ -222,11 +226,15 @@ class InstitutionDetail extends React.Component {
               <Card style={useStyles.card}>
                 <CardActionArea>
                   <CardMedia>
-                    <img
-                      style={useStyles.media}
-                      alt="complex"
-                      src={item.image}
-                    />
+                    <a
+                      href={item.image}
+                      target="_blank">
+                      <img
+                        style={useStyles.media}
+                        alt="complex"
+                        src={item.image}
+                      />
+                    </a>
                   </CardMedia>
                 </CardActionArea>
                 <CardActions>
