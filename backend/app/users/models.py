@@ -154,6 +154,8 @@ class Usuario(Rol, AbstractUser):
     TIPO = 1
     ROLNAME = "Usuario"
 
+    pais = models.CharField(max_length=50, null=True)
+
     objects = CustomUserManager()
 
 
