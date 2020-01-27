@@ -8,7 +8,7 @@ class Institution(models.Model):
         return "{0}".format(self.name)
 
 class Product(models.Model):
-    code = models.IntegerField()
+    code = models.CharField(max_length=60)
 
     def __str__(self):
         return "{}".format("Id: " + str(self.id) + " - Codigo: " + str(self.code))
