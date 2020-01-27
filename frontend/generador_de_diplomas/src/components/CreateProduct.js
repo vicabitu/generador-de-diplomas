@@ -50,6 +50,12 @@ class CreateProduct extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     console.log("Handle Submit");
+    if (this.state.code == '' || this.state.avales == null || this.state.firmas == null) {
+      console.log("Completar campos");
+      this.setState({errorMessage: 'Debe completar el código del producto, las imágenes de las firmas y las imágenes de los avales'});
+      this.setState({openDialog: true});
+      return;
+    }
     this.createProduct();
   }
 
@@ -80,12 +86,12 @@ class CreateProduct extends React.Component {
 
   createFirmas() {
     const url = 'http://127.0.0.1:8000/api/crear_firma';
-    const formData = new FormData();
     console.log("Crear firmas");
     console.log(this.state.firmas);
     
     console.log("Por entrar al for");
     for (var [key, value] of Object.entries(this.state.firmas)) {
+      const formData = new FormData();
       console.log((value));
       
       formData.append('image', value);
@@ -111,12 +117,12 @@ class CreateProduct extends React.Component {
 
   createAvales() {
     const url = 'http://127.0.0.1:8000/api/crear_aval';
-    const formData = new FormData();
     console.log("Crear avales");
     console.log(this.state.avales);
     
     console.log("Por entrar al for");
     for (var [key, value] of Object.entries(this.state.avales)) {
+      const formData = new FormData();
       console.log((value));
       
       formData.append('image', value);
