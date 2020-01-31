@@ -18,5 +18,6 @@ urlpatterns = [
     path('eliminar_firma/<int:pk>', views.DeleteFirma.as_view(), name='eliminar_firma'),
     # Aval
     path('crear_aval', views.CreateAval.as_view(), name='crear_aval'),
-    path('eliminar_aval/<int:pk>', views.DeleteAval.as_view(), name='eliminar_aval')
+    path('eliminar_aval/<int:pk>', views.DeleteAval.as_view(), name='eliminar_aval'),
+    path('generar_diplomas', views.GenerateDiploma.as_view(), name='generar_diplomas')
 ]

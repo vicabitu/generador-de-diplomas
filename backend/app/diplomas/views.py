@@ -5,6 +5,16 @@ from .models import *
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import generics
+# Para la generacion del pdf
+import pandas as pd
+from io import BytesIO
+from diplomas.diploma import Diploma
+from django.http import HttpResponse
+from django.http import FileResponse
+import zipfile
+import io
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 
 class CreateInstitution(APIView):
     parser_classes = (MultiPartParser, FormParser)
@@ -106,3 +116,45 @@ class CreateAval(APIView):
 class DeleteAval(generics.DestroyAPIView):
     serializer_class = AvalSerializer
     queryset = AvalImage.objects.all()
+
+class GenerateDiploma(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    def post(self, request, *args, **kwargs):
+        attachment_file = request.data['file']
+        df = pd.read_excel(attachment_file, 'Hoja1')
+
+        zip_buffer = BytesIO()
+        zip_filename = 'diplomas.zip'
+        with zipfile.ZipFile(zip_buffer, "a", zipfile.ZIP_DEFLATED) as zip_file:
+            # Por cada file del excel genero un diploma
+            for index, row in df.iterrows():
+                buffer = BytesIO()
+                diploma = Diploma(buffer)
+                pdf = diploma.generar(row)
+                zip_file.writestr('diploma' + str(index) + '.pdf', pdf.getvalue())
+
+
+        print(type(zip_buffer))
+        
+        zip_buffer.seek(0)
+
+        # Almaceno el archivo en la carpeta media
+        folder = '/diplomas/'
+        fs = FileSystemStorage(location=settings.MEDIA_ROOT + folder)
+        filename = fs.save('diplomas.zip', zip_buffer)
+        filename_url = fs.url(filename)
+
+        return Response(
+                data={"url_file": filename_url,},
+                status=status.HTTP_200_OK
+            )
+
+
+        # resp = HttpResponse(zip_buffer, content_type='application/zip')
+        # resp['Content-Disposition'] = 'attachment; filename = %s' % zip_filename
+        # return resp
+        
+        # return FileResponse(zip_buffer, as_attachment=True, filename='diplomas.zip')
+
+        # return Response(status=204)
