@@ -7,6 +7,9 @@ from reportlab.pdfbase.ttfonts import TTFont
 from diplomas.models import *
 from generador_de_diplomas.settings import STATIC_URL
 
+from reportlab.platypus import Paragraph
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+
 class Diploma:
 
     def __init__(self, buffer):
@@ -29,6 +32,7 @@ class Diploma:
         pdfmetrics.registerFont(TTFont('GOTHAM-LIGHT', 'diplomas' + STATIC_URL + 'diplomas/fonts/GOTHAM-LIGHT.TTF'))
         pdfmetrics.registerFont(TTFont('GOTHAM-BLACK', 'diplomas' + STATIC_URL + 'diplomas/fonts/GOTHAM-BLACK.TTF'))
         pdfmetrics.registerFont(TTFont('GOTHAM-BOOK', 'diplomas' + STATIC_URL + 'diplomas/fonts/Gotham-Book.ttf'))
+        pdfmetrics.registerFont(TTFont('GOTHAM-BOLD', 'diplomas' + STATIC_URL + 'diplomas/fonts/GOTHAM-BOLD.TTF'))
 
         c = canvas.Canvas(self.buffer, landscape(A4))
         ancho, alto = landscape(A4)
@@ -56,20 +60,29 @@ class Diploma:
         # c.drawString(self.m(36.154),self.m(134.067),"Enrique Ruperti Bilbao") #Nombre y apellido
         c.drawString(self.m(36.154),self.m(134.067), row['Nombre y apellido'])
 
-        c.setFont("GOTHAM-BOOK", 10)
-        c.drawString(self.m(36.154),self.m(124.901),"Con DNI 36980954 ha completado satisfactoriamente el programa online de")
+        # ---- nuevo texto del dni
 
-        # c.setStrokeColorRGB(self.col(82),self.col(133),self.col(197))
+        style = getSampleStyleSheet()
+
+        p = Paragraph("<font fontName=GOTHAM-BOOK>Con </font><font fontName=GOTHAM-BOLD>DNI " + str(row['DNI']) + "</font><font fontName=GOTHAM-BOOK> ha completado satisfactoriamente el programa online de</font>", style=style["Normal"])
+        p.wrapOn(c, ancho, alto)
+        p.drawOn(c, self.m(36.154), self.m(124.901))
+
+        # ---
+
+        # Nombre del curso
         c.setFillColorRGB(self.col(0),self.col(65),self.col(134))
         c.setFont("GOTHAM-BLACK", 22)
         # c.drawString(self.m(36.154),self.m(112.338),"Farmacología aplicada en atención primaria,")
-        # Nombre del curso
         c.drawString(self.m(36.154),self.m(112.338), row['Curso']+",")
 
-        c.setFillColorRGB(0,0,0)
-        c.setFont("GOTHAM-BOOK", 10)
-        c.drawString(self.m(36.154),self.m(101.347),"con una duración estimada de 400 horas cátedra, obteniendo la calificación de 8,6.")
 
+        p = Paragraph("<font fontName=GOTHAM-BOOK>con una duración estimada de </font><font fontName=GOTHAM-BOLD>" + str(row['Duracion']) + "</font><font fontName=GOTHAM-BOOK> horas cátedra, obteniendo la calificación de </font> <font fontName=GOTHAM-BOLD>"  +  str(row['Nota'])+   "</font>", style=style["Normal"])
+        p.wrapOn(c, ancho, alto)
+        p.drawOn(c, self.m(36.154), self.m(101.347))
+
+
+        c.setFillColorRGB(self.col(0),self.col(0),self.col(0))
         c.setFont("GOTHAM-BOOK", 10)
         c.drawString(self.m(36.154),self.m(92.086),"Y para que así conste donde pudiera interesar lo firma:")
 

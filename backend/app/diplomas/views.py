@@ -135,14 +135,14 @@ class GenerateDiploma(APIView):
                 zip_file.writestr('diploma' + str(index) + '.pdf', pdf.getvalue())
 
 
-        print(type(zip_buffer))
+        # print(type(zip_buffer))
         
         zip_buffer.seek(0)
 
         # Almaceno el archivo en la carpeta media
         folder = '/diplomas/'
         fs = FileSystemStorage(location=settings.MEDIA_ROOT + folder)
-        filename = fs.save('diplomas.zip', zip_buffer)
+        filename = fs.save(zip_filename, zip_buffer)
         filename_url = fs.url(filename)
 
         return Response(
