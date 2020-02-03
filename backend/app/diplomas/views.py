@@ -129,13 +129,12 @@ class GenerateDiploma(APIView):
         with zipfile.ZipFile(zip_buffer, "a", zipfile.ZIP_DEFLATED) as zip_file:
             # Por cada file del excel genero un diploma
             for index, row in df.iterrows():
+                # Elimino los espacios en blanco al final del nombre del archivo y agrego los -
+                pdf_filename = row['Nombre y apellido'].rstrip().replace(' ', '-') + '.pdf'
                 buffer = BytesIO()
                 diploma = Diploma(buffer)
                 pdf = diploma.generar(row)
-                zip_file.writestr('diploma' + str(index) + '.pdf', pdf.getvalue())
-
-
-        # print(type(zip_buffer))
+                zip_file.writestr(pdf_filename, pdf.getvalue())
         
         zip_buffer.seek(0)
 
