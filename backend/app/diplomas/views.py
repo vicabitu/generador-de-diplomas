@@ -15,6 +15,7 @@ import zipfile
 import io
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+from datetime import datetime
 
 class CreateInstitution(APIView):
     parser_classes = (MultiPartParser, FormParser)
@@ -125,7 +126,7 @@ class GenerateDiploma(APIView):
         df = pd.read_excel(attachment_file, 'Hoja1')
 
         zip_buffer = BytesIO()
-        zip_filename = 'diplomas.zip'
+        zip_filename = 'finalizados-' + datetime.now().strftime("%d-%m-%Y") + '.zip'
         with zipfile.ZipFile(zip_buffer, "a", zipfile.ZIP_DEFLATED) as zip_file:
             # Por cada file del excel genero un diploma
             for index, row in df.iterrows():
