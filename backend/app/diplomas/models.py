@@ -1,4 +1,5 @@
 from django.db import models
+from users.models import Usuario
 
 class Institution(models.Model):
     name = models.CharField(max_length=60)
@@ -26,3 +27,12 @@ class FirmaImage(models.Model):
 
     def __str__(self):
         return "{}".format("Id: " + str(self.id) + " - Firma del producto: " + str(self.product.code))
+
+class DiplomaGenerationHistory(models.Model):
+    user = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='historial_de_generaciones')
+    date = models.DateField()
+    observations = models.TextField(null=True)
+    file_name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return "{0} - {1} - {2}".format(self.user.username,self.date.strftime("%d-%m-%Y"),self.file_name)
