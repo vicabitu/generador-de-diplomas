@@ -158,6 +158,8 @@ class Usuario(Rol, AbstractUser):
 
     objects = CustomUserManager()
 
+    def __str__(self):
+        return "{}".format(self.username)
 
 for Klass in Rol.__subclasses__():
     Rol.register(Klass)
