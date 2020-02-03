@@ -191,6 +191,7 @@ export default function Dashboard(props) {
               
               <Grid item xs={12}>
                 <Paper className={classes.paper}>
+                  <Route exact path="/" component={GenerateDiplomas}/>
                   <Route path="/generar_diplomas" render={() => <GenerateDiplomas />}/>
                   <Route path="/perfil" render={() => <Profile userId={props.userId} />} />
                   <Route path="/crear_institucion" render={() => <CreateInstitution />} />
