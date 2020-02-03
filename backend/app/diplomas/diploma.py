@@ -13,8 +13,6 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 class Diploma:
 
     def __init__(self, buffer):
-        # self.tamanio_pagina = A4
-        # self.ancho, self.alto = self.tamanio_pagina
         self.buffer = buffer
 
     # paso la medida a mm.
@@ -77,7 +75,7 @@ class Diploma:
         c.drawString(self.m(36.154),self.m(112.338), row['Curso']+",")
 
 
-        p = Paragraph("<font fontName=GOTHAM-BOOK>con una duración estimada de </font><font fontName=GOTHAM-BOLD>" + str(row['Duracion']) + "</font><font fontName=GOTHAM-BOOK> horas cátedra, obteniendo la calificación de </font> <font fontName=GOTHAM-BOLD>"  +  str(row['Nota'])+   "</font>", style=style["Normal"])
+        p = Paragraph("<font fontName=GOTHAM-BOOK>con una duración estimada de </font><font fontName=GOTHAM-BOLD>" + str(row['Duracion']) + "</font><font fontName=GOTHAM-BOOK> horas cátedra, obteniendo la calificación de </font> <font fontName=GOTHAM-BOLD>"  +  str(row['Nota']) + "</font>", style=style["Normal"])
         p.wrapOn(c, ancho, alto)
         p.drawOn(c, self.m(36.154), self.m(101.347))
 
@@ -85,9 +83,11 @@ class Diploma:
         c.setFillColorRGB(self.col(0),self.col(0),self.col(0))
         c.setFont("GOTHAM-BOOK", 10)
         c.drawString(self.m(36.154),self.m(92.086),"Y para que así conste donde pudiera interesar lo firma:")
-
-        c.setFont("GOTHAM-BOOK", 10)
-        c.drawString(self.m(36.154),self.m(58.95),"Fecha de inicio - finalización: 16/05/2019 - 27/01/2020")
+        
+        # Fecha de inicio fin
+        p = Paragraph("<font fontName=GOTHAM-BOOK>Fecha de inicio - finalización: " + row['INICIO'].strftime('%d/%m/%Y')  + " - " + row['FIN'].strftime('%d/%m/%Y') + "</font>", style=style["Normal"])
+        p.wrapOn(c, ancho, alto)
+        p.drawOn(c, self.m(36.154), self.m(58.95))
 
         c.save()
 
