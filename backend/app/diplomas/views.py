@@ -167,3 +167,7 @@ class GenerateDiploma(APIView):
         # return FileResponse(zip_buffer, as_attachment=True, filename='diplomas.zip')
 
         # return Response(status=204)
+
+class ListDiplomaGenerationHistory(generics.ListAPIView):
+    serializer_class = DiplomaGenerationHistorySerializer
+    queryset = DiplomaGenerationHistory.objects.all()

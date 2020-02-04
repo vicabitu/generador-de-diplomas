@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 from .models import *
+from users.serializers import UserSerializer
 
 class InstitutionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -34,3 +35,10 @@ class ListProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ['id', 'code', 'firmas', 'avales']
+
+class DiplomaGenerationHistorySerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = DiplomaGenerationHistory
+        fields = ['id', 'date', 'observations', 'file_name', 'user']
