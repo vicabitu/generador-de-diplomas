@@ -145,8 +145,17 @@ class GenerateDiploma(APIView):
         filename = fs.save(zip_filename, zip_buffer)
         filename_url = fs.url(filename)
 
+        # Logeo la generacion de diploma
+        user = Usuario.objects.all().filter(id=request.data['user_id']).first()
+        DiplomaGenerationHistory.objects.create(
+            user=user, 
+            date=datetime.now(), 
+            observations=request.data['observations'], 
+            file_name=request.data['file_name']
+        )
+
         return Response(
-                data={"url_file": filename_url,},
+                data={"url_file": filename,},
                 status=status.HTTP_200_OK
             )
 
