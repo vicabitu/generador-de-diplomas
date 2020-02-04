@@ -53,6 +53,13 @@ export default function NestedList() {
         </ListItemIcon>
         <ListItemText primary="Generar Diplomas" />
       </ListItem>
+
+      <ListItem button component={Link} to={'/historial'}>
+        <ListItemIcon>
+          <PostAddIcon />
+        </ListItemIcon>
+        <ListItemText primary="Historial" />
+      </ListItem>
       
       <ListItem button onClick={handleClickInstitution}>
         <ListItemIcon>

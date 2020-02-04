@@ -26,6 +26,7 @@ import InstitutionDetail from './InstitutionDetail';
 import ProductsList from './ProductsList';
 import ProductDetail from './ProductDetail';
 import GenerateDiplomas from './GenerateDiplomas';
+import HistoryList from './HistoryList'
 
 function Copyright() {
   return (
@@ -188,6 +189,7 @@ export default function Dashboard(props) {
                 <Paper className={classes.paper}>
                   <Route exact path="/" component={GenerateDiplomas}/>
                   <Route path="/generar_diplomas" render={() => <GenerateDiplomas />}/>
+                  <Route path="/historial" render={() => <HistoryList />}/>
                   <Route path="/perfil" render={() => <Profile userId={props.userId} />} />
                   <Route path="/crear_institucion" render={() => <CreateInstitution />} />
                   <Route path="/crear_producto"  render={() => <CreateProduct />} />
