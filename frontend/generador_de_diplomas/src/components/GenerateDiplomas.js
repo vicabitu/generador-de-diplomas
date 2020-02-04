@@ -3,6 +3,7 @@ import axios from 'axios';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import TextField from '@material-ui/core/TextField';
 
 const useStyles = {
   root: {
@@ -21,7 +22,7 @@ class GenerateDiplomas extends React.Component {
     super(props)
     this.state = {
       file: null,
-      fileZip: ''
+      observations: ''
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -34,6 +35,9 @@ class GenerateDiplomas extends React.Component {
 
     const formData = new FormData();
     formData.append('file', this.state.file);
+    formData.append('observations', this.state.observations)
+    formData.append('file_name', this.state.file.name)
+    formData.append('user_id', localStorage.getItem('user_id'))
     const config = {
       headers: {
           'content-type': 'multipart/form-data'
@@ -43,8 +47,7 @@ class GenerateDiplomas extends React.Component {
     .then((response) => {
       console.log("Entre al then");
       console.log(response);
-
-      window.location.replace("http://127.0.0.1:8000/media/diplomas/diplomas.zip")
+      window.location.replace("http://127.0.0.1:8000/media/diplomas/"+response.data.url_file)
     })
     .catch(function (error) {
       console.log("Error");
@@ -57,44 +60,58 @@ class GenerateDiplomas extends React.Component {
     this.state.file ? name_file = this.state.file.name : name_file = '';
 
     return (
-      <div style={useStyles.root}>
-        <form noValidate onSubmit={e => this.handleSubmit(e)}>
+        <div style={useStyles.root}>
           <Typography component="h1" variant="h5">
             Generar Diplomas
           </Typography>
+          <div>
+            <form noValidate onSubmit={e => this.handleSubmit(e)}>
 
-          <input
-            style={{display: 'none'}}
-            id="contained-button-file"
-            type="file"
-            onChange={(e) => this.setState({file:e.target.files[0]})}
-          />
-          <label htmlFor="contained-button-file">
-            <Button variant="contained" color="primary" component="span" style={{marginTop: 20}}>
-              <CloudUploadIcon style={{marginRight: 10}} />
-              Seleccionar archivo
-            </Button>
-          </label>
+              <input
+                style={{display: 'none'}}
+                id="contained-button-file"
+                type="file"
+                onChange={(e) => this.setState({file:e.target.files[0]})}
+              />
+              <label htmlFor="contained-button-file">
+                <Button variant="contained" color="primary" component="span" style={{marginTop: 20}}>
+                  <CloudUploadIcon style={{marginRight: 10}} />
+                  Seleccionar archivo
+                </Button>
+              </label>
 
-          {/* Muestro el nombre del archivo que seleccionaron */}
-          {name_file &&
-            <div>
-              <p style={{fontWeight: 'bold'}}>Archivo seleccionado:</p>
-              <p style={{fontWeight: 'bold'}}>{name_file}</p>
-            </div>
-          }
-
-          <Button 
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            style={useStyles.submit}
-          >
-            Generar
-          </Button>
-        </form>
-      </div>
+              <TextField
+                id="standard-full-width"
+                style={{ margin: 8 }}
+                name='observations'
+                label='Observaciones'
+                type='text'
+                // margin='normal'
+                fullWidth
+                placeholder='Observaciones'
+                onChange={(e) => this.setState({observations:e.target.value})}
+                />
+              
+              <Button 
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                style={useStyles.submit}
+                >
+                Generar
+              </Button>
+            
+            </form>
+            {/* Muestro el nombre del archivo que seleccionaron */}      
+            {name_file &&
+              <div>
+                <p style={{fontWeight: 'bold'}}>Archivo seleccionado:</p>
+                <p style={{fontWeight: 'bold'}}>{name_file}</p>
+              </div>
+            }
+          </div>
+        </div>
     );
   }
 
