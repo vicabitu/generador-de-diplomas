@@ -35,4 +35,4 @@ class DiplomaGenerationHistory(models.Model):
     file_name = models.CharField(max_length=50)
 
     def __str__(self):
-        return "{0} - {1} - {2}".format(self.user.username,self.date.strftime("%d-%m-%Y"),self.file_name)
+        return "{0} - {1} - {2} - {3}".format(self.user.username,self.date.strftime("%d-%m-%Y"),self.file_name,self.observations)
