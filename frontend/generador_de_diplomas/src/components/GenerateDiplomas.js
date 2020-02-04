@@ -4,6 +4,11 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const useStyles = {
   root: {
@@ -22,14 +27,23 @@ class GenerateDiplomas extends React.Component {
     super(props)
     this.state = {
       file: null,
-      observations: ''
+      observations: '',
+      openDialog: false
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDialog = this.handleDialog.bind(this);
   }
 
   handleSubmit(e) {
     e.preventDefault();
+
+    if (!this.state.file) {
+      console.log('No tengo archivo')
+      this.setState({openDialog: true});
+      return
+    }
+
     console.log(this.state.file);
     const url = 'http://127.0.0.1:8000/api/generar_diplomas';
 
@@ -53,6 +67,10 @@ class GenerateDiplomas extends React.Component {
       console.log("Error");
     });
 
+  }
+
+  handleDialog = () => {
+    this.setState({openDialog: false});
   }
 
   render() {
@@ -111,10 +129,32 @@ class GenerateDiplomas extends React.Component {
               </div>
             }
           </div>
+
+          <div>
+            <Dialog
+              open={this.state.openDialog}
+              onClose={() => this.handleDialog()}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">
+                Error
+              </DialogTitle>
+              <DialogContent id="alert-dialog-description">
+                <DialogContentText id="alert-dialog-description">
+                  Debe seleccionar un archivo excel con la información.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => this.handleDialog()} color="primary">
+                  Aceptar
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </div>
         </div>
     );
   }
-
 }
 
 export default GenerateDiplomas
