@@ -15,6 +15,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import ListIcon from '@material-ui/icons/List';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 import DescriptionIcon from '@material-ui/icons/Description';
+import HistoryIcon from '@material-ui/icons/History';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -56,7 +57,7 @@ export default function NestedList() {
 
       <ListItem button component={Link} to={'/historial'}>
         <ListItemIcon>
-          <PostAddIcon />
+          <HistoryIcon />
         </ListItemIcon>
         <ListItemText primary="Historial" />
       </ListItem>
