@@ -106,6 +106,18 @@ class Diploma:
 
         # Imagen de las firmas
 
+        firma = product.firmas.all().first()
+
+        # Abro la imagen con pillow
+        im = Image.open(firma.image.path)
+        # obtengo el ancho y el alto 
+        width, height = im.size
+
+        # calculo el ancho que debe ir en la imagen
+        ancho_posta = width/10
+        
+        c.drawImage(firma.image.path, self.m(134), self.m(58.95), width=self.m(ancho_posta), height=self.m(27))
+
         c.save()
         self.buffer.seek(0)
         return self.buffer
