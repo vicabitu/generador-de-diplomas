@@ -52,9 +52,11 @@ class GenerateDiplomas extends React.Component {
     formData.append('observations', this.state.observations)
     formData.append('file_name', this.state.file.name)
     formData.append('user_id', localStorage.getItem('user_id'))
+    const AuthStr = 'Bearer '.concat(localStorage.getItem('access_token'));
     const config = {
       headers: {
-          'content-type': 'multipart/form-data'
+          'content-type': 'multipart/form-data',
+          Authorization: AuthStr
       }
     };
     axios.post(url, formData, config)
