@@ -13,8 +13,8 @@ class HistoryList extends React.Component {
   
   componentDidMount() {
     const url = 'http://127.0.0.1:8000/api/historial';
-
-    axios.get(url)
+    const AuthStr = 'Bearer '.concat(localStorage.getItem('access_token'));
+    axios.get(url, { headers: { Authorization: AuthStr } })
     .then((response) => {
       this.setState({history: response.data});
     })

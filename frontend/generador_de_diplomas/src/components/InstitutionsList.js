@@ -30,8 +30,9 @@ class InstitutionsList extends Component {
   componentDidMount(){
     // Obtengo las instituciones para mostrarlas en el listado
     const url = 'http://127.0.0.1:8000/api/instituciones';
+    const AuthStr = 'Bearer '.concat(localStorage.getItem('access_token'));
 
-    axios.get(url)
+    axios.get(url, { headers: { Authorization: AuthStr } })
     .then((response) => {
       this.setState({institutions: response.data});
     })
@@ -52,8 +53,9 @@ class InstitutionsList extends Component {
 
   handleConfirmModal() {
     const url = 'http://127.0.0.1:8000/api/eliminar_institucion/'+this.state.id;
-    
-    axios.delete(url)
+    const AuthStr = 'Bearer '.concat(localStorage.getItem('access_token'));
+
+    axios.delete(url, { headers: { Authorization: AuthStr } })
     .then((response) => {
       console.log("Entre al then de eliminar la institucion")
     })

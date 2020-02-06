@@ -43,7 +43,8 @@ class InstitutionDetail extends React.Component {
     this.setState({id_institution: `${params.id}`});
 
     const url = 'http://127.0.0.1:8000/api/institucion/'+`${params.id}`;
-    axios.get(url)
+    const AuthStr = 'Bearer '.concat(localStorage.getItem('access_token'));
+    axios.get(url, { headers: { Authorization: AuthStr } })
     .then((response) => {
       this.setState({name: response.data.name});
       this.setState({logo:response.data.logo});
@@ -69,9 +70,11 @@ class InstitutionDetail extends React.Component {
       formData.append('logo', '');
     }
     formData.append('id', this.state.id_institution);
+    const AuthStr = 'Bearer '.concat(localStorage.getItem('access_token'));
     const config = {
       headers: {
-          'content-type': 'multipart/form-data'
+          'content-type': 'multipart/form-data',
+          Authorization: AuthStr
       }
     };
     axios.put(url, formData, config)

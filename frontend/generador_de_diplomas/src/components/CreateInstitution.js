@@ -47,13 +47,15 @@ class CreateInstitution extends React.Component {
       this.setState({openDialog: true});
       return;
     }
-    
+
+    const AuthStr = 'Bearer '.concat(localStorage.getItem('access_token'));
     const formData = new FormData();
     formData.append('logo', this.state.logo);
     formData.append('name', this.state.name);
     const config = {
       headers: {
-          'content-type': 'multipart/form-data'
+          'content-type': 'multipart/form-data',
+          Authorization: AuthStr
       }
     };
     axios.post(url, formData, config)

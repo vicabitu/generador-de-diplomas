@@ -89,6 +89,7 @@ class GenerateDiplomas extends React.Component {
                 style={{display: 'none'}}
                 id="contained-button-file"
                 type="file"
+                accept=".xls,.xlsx"
                 onChange={(e) => this.setState({file:e.target.files[0]})}
               />
               <label htmlFor="contained-button-file">

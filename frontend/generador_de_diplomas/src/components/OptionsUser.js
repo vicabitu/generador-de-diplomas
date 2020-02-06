@@ -81,7 +81,6 @@ export default function OptionsUser(props) {
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
                     <MenuItem component={Link} to={'/perfil'} onClick={handleClose}>Perfil</MenuItem>
-                    <MenuItem onClick={handleClose}>Mi Cuenta</MenuItem>
                     <MenuItem onClick={() => {props.handleLogout()}}>Salir</MenuItem>
                   </MenuList>
                 </ClickAwayListener>

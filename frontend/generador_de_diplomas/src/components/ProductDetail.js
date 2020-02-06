@@ -3,7 +3,6 @@ import axios from 'axios';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -15,7 +14,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import TextField from '@material-ui/core/TextField';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 const useStyles = {
@@ -64,7 +62,8 @@ class InstitutionDetail extends React.Component {
     this.setState({id_producto: `${params.id}`});
 
     const url = 'http://127.0.0.1:8000/api/producto/'+`${params.id}`;
-    axios.get(url)
+    const AuthStr = 'Bearer '.concat(localStorage.getItem('access_token'));
+    axios.get(url, { headers: { Authorization: AuthStr } })
     .then((response) => {
       console.log("then del component did mount")
       console.log(response);
@@ -78,8 +77,9 @@ class InstitutionDetail extends React.Component {
   handleDeleteFirma(id_firma) {
     console.log("Elimiar firma, id: " + id_firma);
     const url = 'http://127.0.0.1:8000/api/eliminar_firma/'+id_firma;
-    
-    axios.delete(url)
+    const AuthStr = 'Bearer '.concat(localStorage.getItem('access_token'));
+
+    axios.delete(url, { headers: { Authorization: AuthStr } })
     .then((response) => {
       console.log("then del delete")
       console.log(response);
@@ -93,8 +93,9 @@ class InstitutionDetail extends React.Component {
   handleDeleteAval(id_aval){
     console.log("Elimiar aval, id: " + id_aval);
     const url = 'http://127.0.0.1:8000/api/eliminar_aval/'+id_aval;
+    const AuthStr = 'Bearer '.concat(localStorage.getItem('access_token'));
     
-    axios.delete(url)
+    axios.delete(url, { headers: { Authorization: AuthStr } })
     .then((response) => {
       console.log("then del delete")
       console.log(response);
@@ -117,9 +118,11 @@ class InstitutionDetail extends React.Component {
     formData.append('image', this.state.imagenFirma);
     formData.append('product', this.state.id_producto);
     
+    const AuthStr = 'Bearer '.concat(localStorage.getItem('access_token'));
     const config = {
       headers: {
-          'content-type': 'multipart/form-data'
+          'content-type': 'multipart/form-data',
+          Authorization: AuthStr
         }
     };
     axios.post(url, formData, config)
@@ -142,9 +145,11 @@ class InstitutionDetail extends React.Component {
     formData.append('image', this.state.imagenAval);
     formData.append('product', this.state.id_producto);
     
+    const AuthStr = 'Bearer '.concat(localStorage.getItem('access_token'));
     const config = {
     headers: {
-        'content-type': 'multipart/form-data'
+        'content-type': 'multipart/form-data',
+        Authorization: AuthStr
       }
     };
     axios.post(url, formData, config)

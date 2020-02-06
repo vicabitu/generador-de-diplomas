@@ -49,7 +49,6 @@ class CreateProduct extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log("Handle Submit");
     if (this.state.code == '' || this.state.avales == null || this.state.firmas == null) {
       console.log("Completar campos");
       this.setState({errorMessage: 'Debe completar el código del producto, las imágenes de las firmas y las imágenes de los avales'});
@@ -64,9 +63,11 @@ class CreateProduct extends React.Component {
     const formData = new FormData();
     formData.append('code', this.state.code);
     console.log("Create product");
+    const AuthStr = 'Bearer '.concat(localStorage.getItem('access_token'));
     const config = {
       headers: {
-          'content-type': 'multipart/form-data'
+          'content-type': 'multipart/form-data',
+          Authorization: AuthStr
       }
     };
     axios.post(url, formData, config)
@@ -97,9 +98,11 @@ class CreateProduct extends React.Component {
       formData.append('image', value);
       formData.append('product', this.state.producto_id);
       
+      const AuthStr = 'Bearer '.concat(localStorage.getItem('access_token'));
       const config = {
       headers: {
-          'content-type': 'multipart/form-data'
+          'content-type': 'multipart/form-data',
+          Authorization: AuthStr
         }
       };
       console.log("Form Data");
@@ -128,9 +131,11 @@ class CreateProduct extends React.Component {
       formData.append('image', value);
       formData.append('product', this.state.producto_id);
       
+      const AuthStr = 'Bearer '.concat(localStorage.getItem('access_token'));
       const config = {
       headers: {
-          'content-type': 'multipart/form-data'
+          'content-type': 'multipart/form-data',
+          Authorization: AuthStr
         }
       };
       console.log("Form Data");
