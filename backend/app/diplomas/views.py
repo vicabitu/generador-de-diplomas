@@ -16,8 +16,10 @@ import io
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from datetime import datetime
+from rest_framework.permissions import IsAuthenticated
 
 class CreateInstitution(APIView):
+    permission_classes = (IsAuthenticated,)
     parser_classes = (MultiPartParser, FormParser)
     def post(self, request, *args, **kwargs):
         institution_serializer = InstitutionSerializer(data=request.data)
@@ -28,18 +30,22 @@ class CreateInstitution(APIView):
             return Response(institution_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ListInstitution(generics.ListAPIView):
+    permission_classes = (IsAuthenticated,)
     serializer_class = ListInstitutionSerializer
     queryset = Institution.objects.all()
 
 class DeleteInstitution(generics.DestroyAPIView):
+    permission_classes = (IsAuthenticated,)
     serializer_class = InstitutionSerializer
     queryset = Institution.objects.all()
 
 class GetInstitution(generics.RetrieveAPIView):
+    permission_classes = (IsAuthenticated,)
     serializer_class = ListInstitutionSerializer
     queryset = Institution.objects.all()
 
 class UpdateInstitution(generics.UpdateAPIView):
+    permission_classes = (IsAuthenticated,)
     serializer_class = InstitutionSerializer
     queryset = Institution.objects.all()
 
@@ -62,6 +68,7 @@ class UpdateInstitution(generics.UpdateAPIView):
             return Response(data=InstitutionSerializer(institution).data, status=status.HTTP_200_OK)
     
 class CreateProduct(generics.CreateAPIView):
+    permission_classes = (IsAuthenticated,)
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
 
@@ -79,18 +86,22 @@ class CreateProduct(generics.CreateAPIView):
             )
 
 class DeleteProduct(generics.DestroyAPIView):
+    permission_classes = (IsAuthenticated,)
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
 
 class ListProducts(generics.ListAPIView):
+    permission_classes = (IsAuthenticated,)
     serializer_class = ListProductSerializer
     queryset = Product.objects.all()
 
 class GetProduct(generics.RetrieveAPIView):
+    permission_classes = (IsAuthenticated,)
     serializer_class = ListProductSerializer
     queryset = Product.objects.all()
 
 class CreateFirma(APIView):
+    permission_classes = (IsAuthenticated,)
     parser_classes = (MultiPartParser, FormParser)
     def post(self, request, *args, **kwargs):
         firma_serializer = FirmaSerializer(data=request.data)
@@ -101,10 +112,12 @@ class CreateFirma(APIView):
             return Response(firma_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class DeleteFirma(generics.DestroyAPIView):
+    permission_classes = (IsAuthenticated,)
     serializer_class = FirmaSerializer
     queryset = FirmaImage.objects.all()
 
 class CreateAval(APIView):
+    permission_classes = (IsAuthenticated,)
     parser_classes = (MultiPartParser, FormParser)
     def post(self, request, *args, **kwargs):
         aval_serializer = AvalSerializer(data=request.data)
@@ -115,10 +128,12 @@ class CreateAval(APIView):
             return Response(aval_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class DeleteAval(generics.DestroyAPIView):
+    permission_classes = (IsAuthenticated,)
     serializer_class = AvalSerializer
     queryset = AvalImage.objects.all()
 
 class GenerateDiploma(APIView):
+    permission_classes = (IsAuthenticated,)
     parser_classes = (MultiPartParser, FormParser)
 
     def post(self, request, *args, **kwargs):
@@ -146,13 +161,13 @@ class GenerateDiploma(APIView):
         filename_url = fs.url(filename)
 
         # Logeo la generacion de diploma
-        user = Usuario.objects.all().filter(id=request.data['user_id']).first()
-        DiplomaGenerationHistory.objects.create(
-            user=user, 
-            date=datetime.now(), 
-            observations=request.data['observations'], 
-            file_name=request.data['file_name']
-        )
+        # user = Usuario.objects.all().filter(id=request.data['user_id']).first()
+        # DiplomaGenerationHistory.objects.create(
+        #     user=user, 
+        #     date=datetime.now(), 
+        #     observations=request.data['observations'], 
+        #     file_name=request.data['file_name']
+        # )
 
         return Response(
                 data={"url_file": filename,},
@@ -169,5 +184,6 @@ class GenerateDiploma(APIView):
         # return Response(status=204)
 
 class ListDiplomaGenerationHistory(generics.ListAPIView):
+    permission_classes = (IsAuthenticated,)
     serializer_class = DiplomaGenerationHistorySerializer
     queryset = DiplomaGenerationHistory.objects.all()
