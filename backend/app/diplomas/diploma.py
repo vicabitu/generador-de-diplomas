@@ -7,8 +7,9 @@ from reportlab.pdfbase.ttfonts import TTFont
 from diplomas.models import *
 from generador_de_diplomas.settings import STATIC_URL
 
-from reportlab.platypus import Paragraph
+from reportlab.platypus import Paragraph, Image
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from PIL import Image
 
 class Diploma:
 
@@ -59,13 +60,10 @@ class Diploma:
         c.drawString(self.m(36.154),self.m(134.067), row['Nombre y apellido'])
 
         # ---- nuevo texto del dni
-
         style = getSampleStyleSheet()
-
         p = Paragraph("<font fontName=GOTHAM-BOOK>Con </font><font fontName=GOTHAM-BOLD>DNI " + str(row['DNI']) + "</font><font fontName=GOTHAM-BOOK> ha completado satisfactoriamente el programa online de</font>", style=style["Normal"])
         p.wrapOn(c, ancho, alto)
         p.drawOn(c, self.m(36.154), self.m(124.901))
-
         # ---
 
         # Nombre del curso
@@ -79,7 +77,6 @@ class Diploma:
         p.wrapOn(c, ancho, alto)
         p.drawOn(c, self.m(36.154), self.m(101.347))
 
-
         c.setFillColorRGB(self.col(0),self.col(0),self.col(0))
         c.setFont("GOTHAM-BOOK", 10)
         c.drawString(self.m(36.154),self.m(92.086),"Y para que así conste donde pudiera interesar lo firma:")
@@ -89,9 +86,27 @@ class Diploma:
         p.wrapOn(c, ancho, alto)
         p.drawOn(c, self.m(36.154), self.m(58.95))
 
+        # c.drawImage('diplomas' + STATIC_URL + 'diplomas/images/avales_ejemplo_5.jpg', self.m(36.154), self.m(23.600), width=self.m(180.168), height=self.m(18))
+
+        # Imagen de los avales
+        
+        product_code = str(row['Codigo producto'])
+        product = Product.objects.all().filter(code=product_code).first()
+        aval = product.avales.all().first()
+
+        # Abro la imagen con pillow
+        im = Image.open(aval.image.path)
+        # obtengo el ancho y el alto 
+        width, height = im.size
+
+        # calculo el ancho que debe ir en la imagen
+        ancho_posta = width/10
+        
+        c.drawImage(aval.image.path, self.m(36.154), self.m(23.600), width=self.m(ancho_posta), height=self.m(18))
+
+        # Imagen de las firmas
+
         c.save()
-
         self.buffer.seek(0)
-
         return self.buffer
         
