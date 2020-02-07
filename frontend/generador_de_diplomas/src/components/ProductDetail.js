@@ -44,7 +44,9 @@ class InstitutionDetail extends React.Component {
       openModalCreateAval: false,
       imagenAval: null,
       openDialogDeleteFirma: false,
-      id_firma_delete: null
+      id_firma_delete: null,
+      openDialogDeleteAval: false,
+      id_aval_delete: null
     }
 
     this.handleDeleteFirma = this.handleDeleteFirma.bind(this);
@@ -55,6 +57,8 @@ class InstitutionDetail extends React.Component {
     this.handleConfirmModalCreateAval = this.handleConfirmModalCreateAval.bind(this);
     this.handleOpenDialogDeleteFirma = this.handleOpenDialogDeleteFirma.bind(this);
     this.handleCloseDialogDeleteFirma = this.handleCloseDialogDeleteFirma.bind(this);
+    this.handleOpenDialogDeleteAval = this.handleOpenDialogDeleteAval.bind(this);
+    this.handleCloseDialogDeleteAval = this.handleCloseDialogDeleteAval.bind(this);
   }
 
   componentDidMount() {
@@ -90,9 +94,9 @@ class InstitutionDetail extends React.Component {
     });
   }
 
-  handleDeleteAval(id_aval){
-    console.log("Elimiar aval, id: " + id_aval);
-    const url = 'http://127.0.0.1:8000/api/eliminar_aval/'+id_aval;
+  handleDeleteAval(){
+    console.log("Elimiar aval, id: " + this.state.id_aval_delete);
+    const url = 'http://127.0.0.1:8000/api/eliminar_aval/'+this.state.id_aval_delete;
     const AuthStr = 'Bearer '.concat(localStorage.getItem('access_token'));
     
     axios.delete(url, { headers: { Authorization: AuthStr } })
@@ -168,6 +172,15 @@ class InstitutionDetail extends React.Component {
   
   handleCloseDialogDeleteFirma() {
     this.setState({openDialogDeleteFirma: false});
+  }
+
+  handleOpenDialogDeleteAval(id_aval) {
+    this.setState({id_aval_delete: id_aval});
+    this.setState({openDialogDeleteAval: true});
+  }
+  
+  handleCloseDialogDeleteAval() {
+    this.setState({openDialogDeleteAval: false});
   }
 
   render() {
@@ -255,7 +268,7 @@ class InstitutionDetail extends React.Component {
                   <Button
                     style={{color: '#6976BB'}}
                     startIcon={<DeleteIcon />}
-                    onClick={ () => this.handleDeleteAval(item.id) }
+                    onClick={ () => this.handleOpenDialogDeleteAval(item.id) }
                   >
                     Eliminar aval
                   </Button>
@@ -375,6 +388,29 @@ class InstitutionDetail extends React.Component {
             </DialogActions>
           </DialogContent>
         </Dialog>
+
+        <Dialog
+          open={this.state.openDialogDeleteAval}
+          onClose={() => this.handleCloseDialogDeleteFirma()}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">Eliminar</DialogTitle>
+          <DialogContent id="alert-dialog-description">
+            <DialogContentText style={{display: 'inline'}}>
+              {'Desea eliminar el aval?'}
+            </DialogContentText>
+            <DialogActions>
+              <Button onClick={() => this.handleCloseDialogDeleteAval()} color="primary">
+                Cancelar
+              </Button>
+              <Button onClick={() => this.handleDeleteAval()} color="primary" autoFocus>
+                Aceptar
+              </Button>
+            </DialogActions>
+          </DialogContent>
+        </Dialog>
+
       </Grid>
     );
   }
