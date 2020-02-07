@@ -22,10 +22,6 @@ const useStyles = {
   },
   media: {
     height: 140,
-    // margin: 'auto',
-    // display: 'block',
-    // maxWidth: '100%',
-    // maxHeight: '100%',
   },
   root: {
     // display: 'flex',
@@ -46,7 +42,9 @@ class InstitutionDetail extends React.Component {
       openModalCreateFirma: false,
       imagenFirma: null,
       openModalCreateAval: false,
-      imagenAval: null
+      imagenAval: null,
+      openDialogDeleteFirma: false,
+      id_firma_delete: null
     }
 
     this.handleDeleteFirma = this.handleDeleteFirma.bind(this);
@@ -55,6 +53,8 @@ class InstitutionDetail extends React.Component {
     this.handleConfirmModalCreateFirma = this.handleConfirmModalCreateFirma.bind(this);
     this.handleCloseModalCreateAval = this.handleCloseModalCreateAval.bind(this);
     this.handleConfirmModalCreateAval = this.handleConfirmModalCreateAval.bind(this);
+    this.handleOpenDialogDeleteFirma = this.handleOpenDialogDeleteFirma.bind(this);
+    this.handleCloseDialogDeleteFirma = this.handleCloseDialogDeleteFirma.bind(this);
   }
 
   componentDidMount() {
@@ -74,9 +74,9 @@ class InstitutionDetail extends React.Component {
     });
   }
 
-  handleDeleteFirma(id_firma) {
-    console.log("Elimiar firma, id: " + id_firma);
-    const url = 'http://127.0.0.1:8000/api/eliminar_firma/'+id_firma;
+  handleDeleteFirma() {
+    console.log("Elimiar firma, id: " + this.state.id_firma_delete);
+    const url = 'http://127.0.0.1:8000/api/eliminar_firma/'+this.state.id_firma_delete;
     const AuthStr = 'Bearer '.concat(localStorage.getItem('access_token'));
 
     axios.delete(url, { headers: { Authorization: AuthStr } })
@@ -160,7 +160,16 @@ class InstitutionDetail extends React.Component {
       console.log("Error");
     });
   }
+
+  handleOpenDialogDeleteFirma(id_firma) {
+    this.setState({id_firma_delete: id_firma});
+    this.setState({openDialogDeleteFirma: true});
+  }
   
+  handleCloseDialogDeleteFirma() {
+    this.setState({openDialogDeleteFirma: false});
+  }
+
   render() {
     var firmas;
     var avales;
@@ -199,7 +208,7 @@ class InstitutionDetail extends React.Component {
                   <Button
                     style={{color: '#6976BB'}}
                     startIcon={<DeleteIcon />}
-                    onClick={ () => this.handleDeleteFirma(item.id) }
+                    onClick={ () => this.handleOpenDialogDeleteFirma(item.id) }
                   >
                     Eliminar firma
                   </Button>
@@ -344,7 +353,28 @@ class InstitutionDetail extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
-      
+
+        <Dialog
+          open={this.state.openDialogDeleteFirma}
+          onClose={() => this.handleCloseDialogDeleteFirma()}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">Eliminar</DialogTitle>
+          <DialogContent id="alert-dialog-description">
+            <DialogContentText style={{display: 'inline'}}>
+              {'Desea eliminar la firma?'}
+            </DialogContentText>
+            <DialogActions>
+              <Button onClick={() => this.handleCloseDialogDeleteFirma()} color="primary">
+                Cancelar
+              </Button>
+              <Button onClick={() => this.handleDeleteFirma()} color="primary" autoFocus>
+                Aceptar
+              </Button>
+            </DialogActions>
+          </DialogContent>
+        </Dialog>
       </Grid>
     );
   }
