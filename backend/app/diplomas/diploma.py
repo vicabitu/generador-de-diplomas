@@ -45,7 +45,15 @@ class Diploma:
         # c.drawImage('imagenes/asco_logo.png', m(168.500), m(170.608), width=m(100.168), height=m(12.509))
         institution = Institution.objects.all().filter(name=row['Institucion']).first()
         logo = institution.logo
-        c.drawImage(logo.path, self.m(168.500), self.m(170.608), width=self.m(100.168), height=self.m(18))
+
+        # Abro la imagen con pillow
+        im = Image.open(logo.path)
+        # obtengo el ancho y el alto 
+        width, height = im.size
+
+        # calculo el ancho que debe ir en la imagen
+        ancho_posta = width/5
+        c.drawImage(logo.path, self.m(168.500), self.m(170.608), width=ancho_posta, height=self.m(18))
 
         # Logo de oceano medicina
         # c.drawImage('imagenes/logo-oceano-2.png', m(36.154), m(166.67), width=m(35.106), height=m(17.902))
