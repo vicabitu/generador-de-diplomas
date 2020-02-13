@@ -9,6 +9,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = {
   root: {
@@ -17,7 +18,8 @@ const useStyles = {
     alignItems: 'center'
   },
   submit: {
-    marginTop: 20
+    marginTop: 20,
+    marginBottom: 13
   }
 };
 
@@ -28,7 +30,8 @@ class GenerateDiplomas extends React.Component {
     this.state = {
       file: null,
       observations: '',
-      openDialog: false
+      openDialog: false,
+      loading: false
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -43,6 +46,8 @@ class GenerateDiplomas extends React.Component {
       this.setState({openDialog: true});
       return
     }
+
+    this.setState({loading: true});
 
     console.log(this.state.file);
     const url = 'http://127.0.0.1:8000/api/generar_diplomas';
@@ -63,7 +68,9 @@ class GenerateDiplomas extends React.Component {
     .then((response) => {
       console.log("Entre al then");
       console.log(response);
-      window.location.replace("http://127.0.0.1:8000/media/diplomas/"+response.data.url_file)
+      this.setState({loading: false});
+      this.setState({file: null});
+      window.location.replace("http://127.0.0.1:8000/media/diplomas/"+response.data.url_file);
     })
     .catch(function (error) {
       console.log("Error");
@@ -122,6 +129,9 @@ class GenerateDiplomas extends React.Component {
                 >
                 Generar
               </Button>
+
+              {/* <CircularProgress /> */}
+              {this.state.loading && <CircularProgress /> }
             
             </form>
             {/* Muestro el nombre del archivo que seleccionaron */}      
