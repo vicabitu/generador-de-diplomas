@@ -80,7 +80,7 @@ class InstitutionsList extends Component {
                 render: rowData => (
                   <a target="_blank" href={rowData.logo} >
                     <img
-                      style={{ height: 55, width: 55 }}
+                      style={{ width: 150, height: 'auto' }}
                       src={rowData.logo}
                     />
                   </a>
