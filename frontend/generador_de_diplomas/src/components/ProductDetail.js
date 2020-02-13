@@ -21,7 +21,8 @@ const useStyles = {
     maxWidth: 345
   },
   media: {
-    height: 140,
+    width: 250,
+    height: 'auto'
   },
   root: {
     // display: 'flex',
