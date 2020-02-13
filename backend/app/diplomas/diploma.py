@@ -34,6 +34,7 @@ class Diploma:
         pdfmetrics.registerFont(TTFont('GOTHAM-BOLD', 'diplomas' + STATIC_URL + 'diplomas/fonts/GOTHAM-BOLD.TTF'))
 
         c = canvas.Canvas(self.buffer, landscape(A4))
+        c.setTitle(row['Nombre y apellido'])
         ancho, alto = landscape(A4)
 
         # Recuadro azul
