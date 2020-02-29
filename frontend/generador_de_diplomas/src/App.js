@@ -11,48 +11,31 @@ function App() {
 
   // Verifico si estoy logeado
   useEffect(() => {
-    console.log('Use efect');
-
     if (localStorage.getItem('access_token')) {
-      console.log('Entre al if');
       let url = 'http://127.0.0.1:8000/api/token/verify/';
       const data = {'token': localStorage.getItem('access_token')}
       
       axios.post(url, data)
       .then(function (response) {
-        console.log('Entre al then, accees token vivo')
-        console.log(response);
         setLogin(true);
       })
       .catch(function (response) {
         // Tengo el acces token pero se vencio, lo renuevo con el refresh token
 
-        console.log('Se vencio el access token, intento renovarlo')
         let url = 'http://127.0.0.1:8000/api/token/refresh/';
         const data = {'refresh': localStorage.getItem('refresh_token')}
         
         axios.post(url, data)
         .then(function (response){
-          console.log('sigue vivo el refresh token, renuevo el access token');
-          console.log(response);
-          // localStorage.removeItem('access_token');
           setLogin(true);
           localStorage.setItem('access_token', response.data.access);
         })
         .catch(function (response){
-          console.log('Se vencio el refresh token, deslogueo!');
-          console.log(response);
           localStorage.removeItem('access_token');
           localStorage.removeItem('refresh_token');
           localStorage.removeItem('user_id');
           setLogin(false);
         });
-        
-        // console.log('Entre al catch')
-        // console.log(response);
-        // setLogin(false);
-        // localStorage.removeItem('access_token');
-        // localStorage.removeItem('refresh_token');
       });
     } else {
       console.log("Entre al else");
@@ -60,7 +43,6 @@ function App() {
   });
 
   function handleLogout() {
-    console.log("LogOut")
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('user_id');
@@ -69,25 +51,18 @@ function App() {
 
   function handleLogin(e, userName, password) {
     e.preventDefault();
-    console.log("Login");
 
     var url = 'http://127.0.0.1:8000/api/token/';
     const data = {'username': userName,'password': password};
 
     axios.post(url,data)
     .then(function (response) {
-      // console.log(response.data);
-      // console.log(response.data.refresh);
-      // console.log(response.data.access)
       localStorage.setItem('access_token', response.data.access);
       localStorage.setItem('refresh_token', response.data.refresh);
-      // console.log("Token de acceso: " + localStorage.getItem('access_token'))
       localStorage.setItem('user_id', response.data.user_id);
       setLogin(true);
-      // setUserId(response.data.user_id)
     })
     .catch(function (response) {
-      console.log(response);
       setErrorMessage('Nombre de usuario o contraseña incorrectos');
     });
   }

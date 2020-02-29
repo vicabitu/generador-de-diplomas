@@ -42,14 +42,12 @@ class GenerateDiplomas extends React.Component {
     e.preventDefault();
 
     if (!this.state.file) {
-      console.log('No tengo archivo')
       this.setState({openDialog: true});
       return
     }
 
     this.setState({loading: true});
 
-    console.log(this.state.file);
     const url = 'http://127.0.0.1:8000/api/generar_diplomas';
 
     const formData = new FormData();
@@ -66,8 +64,6 @@ class GenerateDiplomas extends React.Component {
     };
     axios.post(url, formData, config)
     .then((response) => {
-      console.log("Entre al then");
-      console.log(response);
       this.setState({loading: false});
       this.setState({file: null});
       window.location.replace("http://127.0.0.1:8000/media/diplomas/"+response.data.url_file);
@@ -75,7 +71,6 @@ class GenerateDiplomas extends React.Component {
     .catch(function (error) {
       console.log("Error");
     });
-
   }
 
   handleDialog = () => {
@@ -114,7 +109,6 @@ class GenerateDiplomas extends React.Component {
                 name='observations'
                 label='Observaciones'
                 type='text'
-                // margin='normal'
                 fullWidth
                 placeholder='Observaciones'
                 onChange={(e) => this.setState({observations:e.target.value})}
@@ -130,7 +124,6 @@ class GenerateDiplomas extends React.Component {
                 Generar
               </Button>
 
-              {/* <CircularProgress /> */}
               {this.state.loading && <CircularProgress /> }
             
             </form>

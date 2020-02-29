@@ -32,7 +32,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="#">
         Oceano Medicina
       </Link>{' '}
       {new Date().getFullYear()}
@@ -116,10 +116,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
-  },
-  fixedHeight: {
-    height: 240,
-  },
+  }
 }));
 
 export default function Dashboard(props) {
@@ -131,7 +128,6 @@ export default function Dashboard(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <div className={classes.root}>
@@ -151,11 +147,6 @@ export default function Dashboard(props) {
             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
               Generador de Diplomas
             </Typography>
-            {/* <IconButton color="inherit">
-              <Badge color="secondary">
-                <AccountCircleIcon />
-              </Badge>
-            </IconButton> */}
             <OptionsUser 
               handleLogout={props.handleLogout}
             />
@@ -175,10 +166,6 @@ export default function Dashboard(props) {
           </div>
           <Divider />
           <NestedList />
-          
-          {/* <List>{mainListItems}</List>
-          <Divider />
-          <List>{secondaryListItems}</List> */}
         </Drawer>
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />

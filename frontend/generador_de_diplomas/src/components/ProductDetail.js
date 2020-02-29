@@ -70,8 +70,6 @@ class InstitutionDetail extends React.Component {
     const AuthStr = 'Bearer '.concat(localStorage.getItem('access_token'));
     axios.get(url, { headers: { Authorization: AuthStr } })
     .then((response) => {
-      console.log("then del component did mount")
-      console.log(response);
       this.setState({product: response.data})
     })
     .catch(function (error) {
@@ -80,14 +78,11 @@ class InstitutionDetail extends React.Component {
   }
 
   handleDeleteFirma() {
-    console.log("Elimiar firma, id: " + this.state.id_firma_delete);
     const url = 'http://127.0.0.1:8000/api/eliminar_firma/'+this.state.id_firma_delete;
     const AuthStr = 'Bearer '.concat(localStorage.getItem('access_token'));
 
     axios.delete(url, { headers: { Authorization: AuthStr } })
     .then((response) => {
-      console.log("then del delete")
-      console.log(response);
       window.location.reload();
     })
     .catch(function (error) {
@@ -96,14 +91,11 @@ class InstitutionDetail extends React.Component {
   }
 
   handleDeleteAval(){
-    console.log("Elimiar aval, id: " + this.state.id_aval_delete);
     const url = 'http://127.0.0.1:8000/api/eliminar_aval/'+this.state.id_aval_delete;
     const AuthStr = 'Bearer '.concat(localStorage.getItem('access_token'));
     
     axios.delete(url, { headers: { Authorization: AuthStr } })
     .then((response) => {
-      console.log("then del delete")
-      console.log(response);
       window.location.reload();
     })
     .catch(function (error) {

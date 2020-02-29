@@ -60,7 +60,6 @@ class CreateInstitution extends React.Component {
     };
     axios.post(url, formData, config)
     .then((response) => {
-      console.log("Entre al then");
       this.setState({openBar: true});
       window.location.reload();
     })

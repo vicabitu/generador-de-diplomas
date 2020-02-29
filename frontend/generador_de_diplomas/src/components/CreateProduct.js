@@ -50,7 +50,6 @@ class CreateProduct extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     if (this.state.code == '' || this.state.avales == null || this.state.firmas == null) {
-      console.log("Completar campos");
       this.setState({errorMessage: 'Debe completar el código del producto, las imágenes de las firmas y las imágenes de los avales'});
       this.setState({openDialog: true});
       return;
@@ -62,7 +61,6 @@ class CreateProduct extends React.Component {
     const url = 'http://127.0.0.1:8000/api/crear_producto';
     const formData = new FormData();
     formData.append('code', this.state.code);
-    console.log("Create product");
     const AuthStr = 'Bearer '.concat(localStorage.getItem('access_token'));
     const config = {
       headers: {
@@ -72,7 +70,6 @@ class CreateProduct extends React.Component {
     };
     axios.post(url, formData, config)
     .then((response) => {
-      console.log("Entre al then de create product");
       this.setState({producto_id: response.data.id});
       this.createFirmas();
       this.createAvales();
@@ -87,13 +84,8 @@ class CreateProduct extends React.Component {
 
   createFirmas() {
     const url = 'http://127.0.0.1:8000/api/crear_firma';
-    console.log("Crear firmas");
-    console.log(this.state.firmas);
-    
-    console.log("Por entrar al for");
     for (var [key, value] of Object.entries(this.state.firmas)) {
       const formData = new FormData();
-      console.log((value));
       
       formData.append('image', value);
       formData.append('product', this.state.producto_id);
@@ -105,11 +97,8 @@ class CreateProduct extends React.Component {
           Authorization: AuthStr
         }
       };
-      console.log("Form Data");
-      console.log(formData);
       axios.post(url, formData, config)
       .then(function (response) {
-        console.log("Entre al then de crear firma");
         console.log(response);
       })
       .catch(function (error) {
@@ -120,13 +109,9 @@ class CreateProduct extends React.Component {
 
   createAvales() {
     const url = 'http://127.0.0.1:8000/api/crear_aval';
-    console.log("Crear avales");
-    console.log(this.state.avales);
-    
-    console.log("Por entrar al for");
+
     for (var [key, value] of Object.entries(this.state.avales)) {
       const formData = new FormData();
-      console.log((value));
       
       formData.append('image', value);
       formData.append('product', this.state.producto_id);
@@ -138,11 +123,8 @@ class CreateProduct extends React.Component {
           Authorization: AuthStr
         }
       };
-      console.log("Form Data");
-      console.log(formData);
       axios.post(url, formData, config)
       .then(function (response) {
-        console.log("Entre al then de crear avales");
         console.log(response);
       })
       .catch(function (error) {
@@ -152,17 +134,11 @@ class CreateProduct extends React.Component {
   }
 
   handleFirmas = (files) => {
-    console.log("handle firmas");
-    console.log(files);
     this.setState({firmas:files});
-    console.log(this.state.firmas);
   }
 
   handleAvales = (files) => {
-    console.log("handle avales")
-    console.log(files);
     this.setState({avales:files});
-    console.log(this.state.avales);
   };
 
   handleDialog = () => {
@@ -213,7 +189,6 @@ class CreateProduct extends React.Component {
           multiple
           type="file"
           name="firmas"
-          // onChange={(d) => this.setState({firmas:d.target.files})}
           onChange={(e) => this.handleFirmas(e.target.files)}
         />
         <label htmlFor="contained-button-file-firmas">
