@@ -121,7 +121,7 @@ class InstitutionDetail extends React.Component {
               <Typography variant="h6">
                 Logo actual:
               </Typography>
-              <img style={{width: 200, height: 200}} src={this.state.logo ? this.state.logo : ''} />
+              <img style={{width: 350, height: 'auto'}} src={this.state.logo ? this.state.logo : ''} />
             </div>
         
             <input
