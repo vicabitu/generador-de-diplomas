@@ -43,7 +43,6 @@ class Diploma:
         c.rect(0, 0, ancho, alto, stroke=1, fill=0)
 
         # Logo de la istitucion
-        # c.drawImage('imagenes/asco_logo.png', m(168.500), m(170.608), width=m(100.168), height=m(12.509))
         institution = Institution.objects.all().filter(name=row['Institucion']).first()
         logo = institution.logo
 
@@ -57,9 +56,8 @@ class Diploma:
         c.drawImage(logo.path, self.m(168.500), self.m(170.608), width=ancho_posta, height=self.m(18))
 
         # Logo de oceano medicina
-        # c.drawImage('imagenes/logo-oceano-2.png', m(36.154), m(166.67), width=m(35.106), height=m(17.902))
-        c.drawImage('diplomas' + STATIC_URL + 'diplomas/images/logo-oceano-2.png', self.m(36.154), self.m(166.67), width=self.m(36.500), height=self.m(19.000))
-        c.drawImage('diplomas' + STATIC_URL + 'diplomas/images/formacion-online-2.png', self.m(79.224), self.m(171.293), width=self.m(14), height=self.m(14))
+        c.drawImage('diplomas' + STATIC_URL + '#', self.m(36.154), self.m(166.67), width=self.m(36.500), height=self.m(19.000))
+        c.drawImage('diplomas' + STATIC_URL + '#', self.m(79.224), self.m(171.293), width=self.m(14), height=self.m(14))
 
 
         c.setFont("GOTHAM-LIGHT", 12)
@@ -67,7 +65,6 @@ class Diploma:
 
         c.setFont("GOTHAM-LIGHT", 18)
         # Nombre y apellido
-        # c.drawString(self.m(36.154),self.m(134.067),"Enrique Ruperti Bilbao") #Nombre y apellido
         c.drawString(self.m(36.154),self.m(134.067), row['Nombre y apellido'])
 
         # ---- nuevo texto del dni
@@ -80,7 +77,6 @@ class Diploma:
         # Nombre del curso
         c.setFillColorRGB(self.col(0),self.col(65),self.col(134))
         c.setFont("GOTHAM-BLACK", 22)
-        # c.drawString(self.m(36.154),self.m(112.338),"Farmacología aplicada en atención primaria,")
         c.drawString(self.m(36.154),self.m(112.338), row['Curso']+",")
 
 
@@ -96,8 +92,6 @@ class Diploma:
         p = Paragraph("<font fontName=GOTHAM-BOOK>Fecha de inicio - finalización: " + row['INICIO'].strftime('%d/%m/%Y')  + " - " + row['FIN'].strftime('%d/%m/%Y') + "</font>", style=style["Normal"])
         p.wrapOn(c, ancho, alto)
         p.drawOn(c, self.m(36.154), self.m(58.95))
-
-        # c.drawImage('diplomas' + STATIC_URL + 'diplomas/images/avales_ejemplo_5.jpg', self.m(36.154), self.m(23.600), width=self.m(180.168), height=self.m(18))
 
         # Imagen de los avales
         
